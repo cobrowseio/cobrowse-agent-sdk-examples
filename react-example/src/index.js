@@ -4,27 +4,28 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 
-function render(devices, sessions) {
-    ReactDOM.render(
-        <React.StrictMode>
-            <App devices={devices} sessions={sessions} />
-        </React.StrictMode>,
-        document.getElementById('root')
-    );
+// create an API instance
+const cobrowse = new CobrowseAPI();
+
+async function fetchToken(demoid) {
+    // fetch a token for testing
+    const res = await fetch(`${cobrowse.api}/api/1/demo/token?cobrowseio_demo_id=${demoid}`);
+    const { token } = await res.json();
+    return token;
 }
 
-(async function() {
-    // fetch a token for testing
-    const ApiUrl = 'https://api.cobrowse.io';
-    const res = await fetch(`${ApiUrl}/api/1/demo/token?cobrowseio_demo_id=examples`);
-    const { token } = await res.json();
+async function onDemoId(demoid) {
+    window.localStorage.cobrowse_demo_id = demoid;
+    cobrowse.token = await fetchToken(demoid);
+    await refresh();
+}
 
-    // create an API instance
-    const api = new CobrowseAPI(token, { api: ApiUrl });
+async function refresh() {
+    if (!cobrowse.token) return;
 
     // list some sessions and devices to use in example UIs
-    const devices = await api.devices.list();
-    const sessions = await api.sessions.list();
+    const devices = await cobrowse.devices.list();
+    const sessions = await cobrowse.sessions.list();
 
     // subscribe to updates for these resources
     devices.forEach(device => device.subscribe());
@@ -34,4 +35,20 @@ function render(devices, sessions) {
     render(devices, sessions);
     devices.forEach(device => device.on('updated', () => render(devices, sessions)));
     sessions.forEach(session => session.on('updated', () => render(devices, sessions)));
-})();
+}
+
+function render(devices=[], sessions=[]) {
+    ReactDOM.render(
+        <React.StrictMode>
+            <div className="options">
+                <div>Demo ID: <input onBlur={e => onDemoId(e.target.value)} defaultValue={window.localStorage.cobrowse_demo_id||''}/></div>
+                <div onClick={refresh}>Refresh</div>
+            </div>
+            <App devices={devices} sessions={sessions} />
+        </React.StrictMode>,
+        document.getElementById('root')
+    );
+}
+
+render();
+onDemoId(window.localStorage.cobrowse_demo_id);

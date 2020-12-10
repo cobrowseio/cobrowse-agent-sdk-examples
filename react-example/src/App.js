@@ -8,7 +8,7 @@ function App(props) {
     }
 
   return (
-    <div className="App">
+    <div className="App" style={{margin: 15}}>
         <h2>Smart Connect Buttons</h2>
         <p>These buttons change style and become clickable when a device comes online.</p>
         { props.devices.map(d => <SmartConnectButton key={d.id()} onClick={onConnectClick} device={d} />) }
