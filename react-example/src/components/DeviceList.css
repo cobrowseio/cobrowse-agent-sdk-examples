@@ -1,8 +1,4 @@
 
-.DeviceList>.row {
-    background: #f7f7f7;
-}
-
 .DeviceList>.row:not(:last-of-type) {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px dashed #eee;
 }

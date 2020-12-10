@@ -1,5 +1,6 @@
 import parser from 'ua-parser-js';
 import moment from 'moment';
+import SmartConnectButton from './SmartConnectButton';
 import './Device.css';
 
 export default function Device(props) {
@@ -20,8 +21,11 @@ export default function Device(props) {
 
     return (
         <div className={`Device ${props.device.isOnline()?'online':''} ${props.device.isConnectable()?'connectable':''}`}>
-            { deviceType(props.device.toJSON().device) }
-            <div className={'last-seen'}>Last seen {moment(props.device.lastSeen()).fromNow()}</div>
+            <div>
+                { deviceType(props.device.toJSON().device) }
+                <div className={'last-seen'}>Last seen {moment(props.device.lastSeen()).fromNow()}</div>
+            </div>
+            <SmartConnectButton device={props.device} />
         </div>
   );
 }

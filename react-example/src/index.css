@@ -7,14 +7,19 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-body .options {
+body>#root>.options {
     background: #f3f3f3;
     padding: 7px;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid #ddd;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+body>#root>.options>input {
+    margin-left: 5px;
+    flex: 1;
+    border:1px solid #ccc;
+    padding: 7px;
+    border-radius: 5px;
 }

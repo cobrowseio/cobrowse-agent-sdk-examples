@@ -21,8 +21,6 @@ async function onDemoId(demoid) {
 }
 
 async function refresh() {
-    if (!cobrowse.token) return;
-
     // list some sessions and devices to use in example UIs
     const devices = await cobrowse.devices.list();
     const sessions = await cobrowse.sessions.list();
@@ -41,8 +39,7 @@ function render(devices=[], sessions=[]) {
     ReactDOM.render(
         <React.StrictMode>
             <div className="options">
-                <div>Demo ID: <input onBlur={e => onDemoId(e.target.value)} defaultValue={window.localStorage.cobrowse_demo_id||''}/></div>
-                <div onClick={refresh}>Refresh</div>
+                Demo ID: <input onBlur={e => onDemoId(e.target.value)} defaultValue={window.localStorage.cobrowse_demo_id||''}/>
             </div>
             <App devices={devices} sessions={sessions} />
         </React.StrictMode>,

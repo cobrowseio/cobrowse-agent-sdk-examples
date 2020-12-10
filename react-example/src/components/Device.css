@@ -2,6 +2,9 @@
 .Device {
     padding: 7px;
     border-left: 5px solid transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .Device.online {
