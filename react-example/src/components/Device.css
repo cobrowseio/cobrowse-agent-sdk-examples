@@ -3,7 +3,6 @@
     padding: 7px;
     border-left: 5px solid transparent;
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
@@ -14,4 +13,14 @@
 .Device .last-seen {
     font-size: 0.8em;
     color: #777;
+}
+
+.Device .platform-icon {
+    width: 20px;
+    margin: 0px 7px;
+    pointer-events: none;
+}
+
+.Device .details {
+    flex:1;
 }

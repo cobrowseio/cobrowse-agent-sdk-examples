@@ -19,9 +19,19 @@ export default function Device(props) {
         }
     }
 
+    function deviceIcon(platform) {
+        switch (platform) {
+            case 'web': return 'https://image.flaticon.com/icons/svg/25/25240.svg';
+            case 'ios': return 'https://image.flaticon.com/icons/svg/152/152752.svg';
+            case 'android': return 'https://image.flaticon.com/icons/svg/38/38002.svg';
+            default: return 'https://image.flaticon.com/icons/svg/80/80932.svg';
+        }
+    }
+
     return (
         <div className={`Device ${props.device.isOnline()?'online':''} ${props.device.isConnectable()?'connectable':''}`}>
-            <div>
+            <img className={'platform-icon'} src={deviceIcon(props.device.toJSON().device.platform)} alt={''}/>
+            <div className={'details'}>
                 { deviceType(props.device.toJSON().device) }
                 <div className={'last-seen'}>Last seen {moment(props.device.lastSeen()).fromNow()}</div>
             </div>
