@@ -1,0 +1,14 @@
+
+.Device {
+    padding: 7px;
+    border-left: 5px solid transparent;
+}
+
+.Device.online {
+    border-left: 5px solid #3cc56e;
+}
+
+.Device .last-seen {
+    font-size: 0.8em;
+    color: #777;
+}
