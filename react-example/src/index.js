@@ -15,6 +15,7 @@ async function fetchToken(demoid) {
 }
 
 async function onDemoId(demoid) {
+    if (!demoid) return;
     window.localStorage.cobrowse_demo_id = demoid;
     cobrowse.token = await fetchToken(demoid);
     await refresh();
