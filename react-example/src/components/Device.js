@@ -20,12 +20,14 @@ export default function Device(props) {
     }
 
     function deviceIcon(platform) {
+        console.log(require('../icons/web.svg'));
         switch (platform) {
-            case 'web': return 'https://image.flaticon.com/icons/svg/25/25240.svg';
-            case 'ios': return 'https://image.flaticon.com/icons/svg/152/152752.svg';
-            case 'android': return 'https://image.flaticon.com/icons/svg/38/38002.svg';
-            case 'windows': return 'https://image.flaticon.com/icons/svg/732/732076.svg';
-            default: return 'https://image.flaticon.com/icons/svg/80/80932.svg';
+            case 'web': return require('../icons/web.svg').default;
+            case 'ios': return require('../icons/apple.svg').default;
+            case 'macos': return require('../icons/apple.svg').default;
+            case 'android': return require('../icons/android.svg').default;
+            case 'windows': return require('../icons/windows.svg').default;
+            default: return require('../icons/default.svg').default;
         }
     }
 
