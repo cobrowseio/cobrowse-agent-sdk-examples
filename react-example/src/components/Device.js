@@ -20,7 +20,6 @@ export default function Device(props) {
     }
 
     function deviceIcon(platform) {
-        console.log(require('../icons/web.svg'));
         switch (platform) {
             case 'web': return require('../icons/web.svg').default;
             case 'ios': return require('../icons/apple.svg').default;
