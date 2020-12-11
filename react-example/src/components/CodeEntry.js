@@ -38,7 +38,7 @@ export default class CodeEntry extends Component {
 
         this.setState({validating: true});
         try {
-            if (await this.props.validateCode(code)) {
+            if (await this.props.onCode(code)) {
                 this.setState({validating: false});
                 this.setState({code: ['','','','','','']});
                 if (this.firstDigit) this.firstDigit.focus();

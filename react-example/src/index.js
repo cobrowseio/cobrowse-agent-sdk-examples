@@ -36,13 +36,25 @@ async function refresh() {
     sessions.forEach(session => session.on('updated', () => render(devices, sessions)));
 }
 
+async function handleCode(code) {
+    try {
+        const session = await cobrowse.sessions.get(code);
+        if (session) {
+            alert(`Load session ${session.id()}`);
+            return true;
+        }
+    } catch(e) {
+        return false;
+    }
+}
+
 function render(devices=[], sessions=[]) {
     ReactDOM.render(
         <React.StrictMode>
             <div className="options">
                 Demo ID: <input onBlur={e => onDemoId(e.target.value)} defaultValue={window.localStorage.cobrowse_demo_id||''}/>
             </div>
-            <App devices={devices} sessions={sessions} />
+            <App devices={devices} sessions={sessions} handleCode={handleCode} />
         </React.StrictMode>,
         document.getElementById('root')
     );

@@ -8,12 +8,6 @@ function App(props) {
         alert(`connect to ${device.id()}`);
     }
 
-    async function validateCode(code) {
-        return new Promise(function(resolve, reject) {
-            setTimeout(() => resolve(0.5 < Math.random()));
-        });
-    }
-
     return (
         <div className="App" style={{margin: 15}}>
             <h2>Smart Connect Buttons</h2>
@@ -26,7 +20,7 @@ function App(props) {
 
             <h2>Six Digit Code Entry</h2>
             <p>A component for accepting a screen share code.</p>
-            <CodeEntry validateCode={validateCode} />
+            <CodeEntry onCode={props.handleCode} />
         </div>
     );
 }
