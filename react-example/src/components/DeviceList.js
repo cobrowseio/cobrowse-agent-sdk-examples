@@ -6,7 +6,7 @@ export default function DeviceList(props) {
     function renderDevice(device, idx) {
         return (
             <div className={'row'} key={idx}>
-                <Device device={device} />
+                <Device device={device} connect={props.connect} />
             </div>
         );
     }

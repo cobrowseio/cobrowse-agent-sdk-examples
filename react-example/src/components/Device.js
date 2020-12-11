@@ -30,13 +30,13 @@ export default function Device(props) {
     }
 
     return (
-        <div className={`Device ${props.device.isOnline()?'online':''} ${props.device.isConnectable()?'connectable':''}`}>
-            <img className={'platform-icon'} src={deviceIcon(props.device.toJSON().device.platform)} alt={''}/>
+        <div className={`Device ${props.device.online?'online':''} ${props.device.connectable?'connectable':''}`}>
+            <img className={'platform-icon'} src={deviceIcon(props.device.device.platform)} alt={''}/>
             <div className={'details'}>
-                { deviceType(props.device.toJSON().device) }
-                <div className={'last-seen'}>Last seen {moment(props.device.lastSeen()).fromNow()}</div>
+                { deviceType(props.device.device) }
+                <div className={'last-seen'}>Last seen {moment(props.device.last_active).fromNow()}</div>
             </div>
-            <SmartConnectButton device={props.device} />
+            <SmartConnectButton device={props.device} onClick={props.connect} />
         </div>
   );
 }

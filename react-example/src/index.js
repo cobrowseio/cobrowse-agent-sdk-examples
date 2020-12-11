@@ -40,12 +40,16 @@ async function handleCode(code) {
     try {
         const session = await cobrowse.sessions.get(code);
         if (session) {
-            alert(`Load session ${session.id()}`);
+            alert(`Load session ${session.id}`);
             return true;
         }
     } catch(e) {
         return false;
     }
+}
+
+function connect(device) {
+    alert(`connect to ${device.id}`);
 }
 
 function render(devices=[], sessions=[]) {
@@ -54,7 +58,12 @@ function render(devices=[], sessions=[]) {
             <div className="options">
                 Demo ID: <input onBlur={e => onDemoId(e.target.value)} defaultValue={window.localStorage.cobrowse_demo_id||''}/>
             </div>
-            <App devices={devices} sessions={sessions} handleCode={handleCode} />
+            <App
+                devices={devices.map(d => d.toJSON())}
+                sessions={sessions.map(s => s.toJSON())}
+                handleCode={handleCode}
+                connect={connect}
+            />
         </React.StrictMode>,
         document.getElementById('root')
     );
