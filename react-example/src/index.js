@@ -8,7 +8,13 @@ import App from './App';
 const cobrowse = new CobrowseAPI();
 
 async function fetchToken(demoid) {
-    // fetch a token for testing
+    // !! WARNING READ THIS !!
+    // You should NOT use this endpoint to get your own token. This endpoint is
+    // specific to the cobrowse.io hosted online demo. It will not work with your
+    // account and devices.
+    // You should fetch a token in an authenticated way from your own server for
+    // the user. See our documentation on generating a JWT for cobrowse:
+    // https://docs.cobrowse.io/agent-side-integrations/custom-iframe-integrations/json-web-tokens-jwts
     const res = await fetch(`${cobrowse.api}/api/1/demo/token?cobrowseio_demo_id=${demoid}`);
     const { token } = await res.json();
     return token;
@@ -22,18 +28,15 @@ async function onDemoId(demoid) {
 }
 
 async function refresh() {
-    // list some sessions and devices to use in example UIs
+    // list some devices to use in example UIs
     const devices = await cobrowse.devices.list();
-    const sessions = await cobrowse.sessions.list();
 
     // subscribe to updates for these resources
     devices.forEach(device => device.subscribe());
-    sessions.forEach(session => session.subscribe());
 
     // render the current state on any updates
-    render(devices, sessions);
-    devices.forEach(device => device.on('updated', () => render(devices, sessions)));
-    sessions.forEach(session => session.on('updated', () => render(devices, sessions)));
+    render(devices);
+    devices.forEach(device => device.on('updated', () => render(devices)));
 }
 
 async function handleCode(code) {
@@ -52,7 +55,7 @@ function connect(device) {
     alert(`connect to ${device.id}`);
 }
 
-function render(devices=[], sessions=[]) {
+function render(devices=[]) {
     ReactDOM.render(
         <React.StrictMode>
             <div className="options">
@@ -60,7 +63,6 @@ function render(devices=[], sessions=[]) {
             </div>
             <App
                 devices={devices.map(d => d.toJSON())}
-                sessions={sessions.map(s => s.toJSON())}
                 handleCode={handleCode}
                 connect={connect}
             />

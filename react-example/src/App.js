@@ -1,6 +1,4 @@
-import SmartConnectButton from './components/SmartConnectButton';
-import DeviceList from './components/DeviceList';
-import CodeEntry from './components/CodeEntry';
+import { SmartConnectButton, DeviceList, CodeEntry } from 'cobrowse-agent-ui';
 
 function App(props) {
 
