@@ -1,4 +1,4 @@
-import { SmartConnectButton, DeviceList, CodeEntry } from 'cobrowse-agent-ui';
+import { SmartConnectButton, Device, DeviceList, CodeEntry } from 'cobrowse-agent-ui';
 
 function App(props) {
 
@@ -12,6 +12,9 @@ function App(props) {
             <p>A list of devices whose details update in real time.</p>
             <DeviceList devices={props.devices} connect={props.connect} />
 
+            <p>Or a customized list of devices.</p>
+            { props.devices.map(d => <Device device={d}><button>Custom</button></Device>) }
+            
             <h2>Six Digit Code Entry</h2>
             <p>A component for accepting a screen share code.</p>
             <CodeEntry onCode={props.handleCode} />
