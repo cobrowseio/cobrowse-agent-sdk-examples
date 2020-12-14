@@ -1,4 +1,4 @@
-import { SmartConnectButton, Device, DeviceList, CodeEntry } from 'cobrowse-agent-ui';
+import { SmartConnectButton, PlatformIcon, Device, DeviceList, CodeEntry } from 'cobrowse-agent-ui';
 
 function App(props) {
 
@@ -7,6 +7,15 @@ function App(props) {
             <h2>Smart Connect Buttons</h2>
             <p>These buttons change style and become clickable when a device comes online.</p>
             { props.devices.map(d => <SmartConnectButton key={d.id} onClick={props.connect} device={d} />) }
+            <p>Customise button labels</p>
+            { props.devices.map(d => <SmartConnectButton key={d.id} label={
+                    <div style={{display:'flex', alignItems:'center'}}>
+                        <PlatformIcon style={{width: 20, height: 20, marginLeft:0}} platform={d.device.platform} />
+                        <span>Join</span>
+                    </div>
+                } onClick={props.connect} device={d} />)
+            }
+
 
             <h2>Device Listing</h2>
             <p>A list of devices whose details update in real time.</p>
