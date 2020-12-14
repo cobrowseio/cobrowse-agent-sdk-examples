@@ -16,17 +16,15 @@ function App(props) {
                 } onClick={props.connect} device={d} />)
             }
 
+            <h2>Six Digit Code Entry</h2>
+            <p>A component for accepting a screen share code.</p>
+            <CodeEntry onCode={props.handleCode} />
 
             <h2>Device Listing</h2>
             <p>A list of devices whose details update in real time.</p>
             <DeviceList devices={props.devices} connect={props.connect} />
 
-            <h2>Six Digit Code Entry</h2>
-            <p>A component for accepting a screen share code.</p>
-            <CodeEntry onCode={props.handleCode} />
-
-            <h2>Customization of Components</h2>
-            <p>Pick and choose which components are used.</p>
+            <p>A device list with some customisation.</p>
             { props.devices.map(d => (
                 <div key={d.id} style={{border:`2px solid ${d.online?'orange':'#eee'}`, borderRadius:5, marginTop: 7}}>
                     <Device style={{border: '0px none', marginTop: 7}} device={d}>
