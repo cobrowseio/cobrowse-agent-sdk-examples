@@ -15,19 +15,15 @@ async function fetchToken(demoid) {
     // You should fetch a token in an authenticated way from your own server for
     // the user. See our documentation on generating a JWT for cobrowse:
     // https://docs.cobrowse.io/agent-side-integrations/custom-iframe-integrations/json-web-tokens-jwts
-    const res = await fetch(`${cobrowse.api}/api/1/demo/token?cobrowseio_demo_id=${demoid}`);
-    const { token } = await res.json();
-    return token;
-}
-
-async function onDemoId(demoid) {
     if (!demoid) return;
     window.localStorage.cobrowse_demo_id = demoid;
-    cobrowse.token = await fetchToken(demoid);
-    await refresh();
+    const res = await fetch(`${cobrowse.api}/api/1/demo/token?cobrowseio_demo_id=${demoid}`);
+    const { token } = await res.json();
+    cobrowse.token = token;
+    await refreshDevices();
 }
 
-async function refresh() {
+async function refreshDevices() {
     // list some devices to use in example UIs
     const devices = await cobrowse.devices.list();
 
@@ -59,7 +55,7 @@ function render(devices=[]) {
     ReactDOM.render(
         <React.StrictMode>
             <div className="options">
-                Demo ID: <input onBlur={e => onDemoId(e.target.value)} defaultValue={window.localStorage.cobrowse_demo_id||''}/>
+                Demo ID: <input onBlur={e => fetchToken(e.target.value)} defaultValue={window.localStorage.cobrowse_demo_id||''}/>
             </div>
             <App
                 devices={devices.map(d => d.toJSON())}
@@ -72,4 +68,4 @@ function render(devices=[]) {
 }
 
 render();
-onDemoId(window.localStorage.cobrowse_demo_id);
+fetchToken(window.localStorage.cobrowse_demo_id);
