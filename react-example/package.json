@@ -5,11 +5,9 @@
   "dependencies": {
     "cobrowse-agent-sdk": "github:cobrowseio/cobrowse-agent-sdk",
     "cobrowse-agent-ui": "github:cobrowseio/cobrowse-agent-ui",
-    "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-scripts": "4.0.1",
-    "ua-parser-js": "^0.7.23"
+    "react-scripts": "4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
