@@ -10,7 +10,7 @@ Our Agent API can be used to build 100% customized agent-side integrations into 
 
 Navigate to our [Agent SDK Demo Page](https://cobrowse-agent-sdk-examples.cbrws.io/) and open up our [Cobrowse.io Online Demo](https://cobrowse.io/demo) in another browser tab to generate your Demo ID. 
 
-This Demo Page uses our [Agent UI components library](https://github.com/cobrowseio/cobrowse-agent-ui), our [Agent JavaScript SDK](https://www.npmjs.com/package/cobrowse-agent-sdk), and ties it together into an thsi example project which you can run locally. 
+This Demo Page uses our [Agent UI components library](https://github.com/cobrowseio/cobrowse-agent-ui), our [Agent JavaScript SDK](https://www.npmjs.com/package/cobrowse-agent-sdk), and ties it together into this example project which you can run locally. 
 
 ## Run locally
 ```sh
