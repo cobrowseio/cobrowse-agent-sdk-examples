@@ -20,19 +20,25 @@ async function fetchToken(demoid) {
     const res = await fetch(`${cobrowse.api}/api/1/demo/token?cobrowseio_demo_id=${demoid}`);
     const { token } = await res.json();
     cobrowse.token = token;
-    await refreshDevices();
+    await refresh();
 }
 
-async function refreshDevices() {
+async function refresh() {
     // list some devices to use in example UIs
-    const devices = await cobrowse.devices.list();
+    const [devices, sessions] = await Promise.all([
+        cobrowse.devices.list(),
+        cobrowse.sessions.list({state:['active', 'ended']})
+    ]);
 
     // subscribe to updates for these resources
     devices.forEach(device => device.subscribe());
+    // and sessions
+    sessions.forEach(sessions => sessions.subscribe());
 
     // render the current state on any updates
-    render(devices);
-    devices.forEach(device => device.on('updated', () => render(devices)));
+    render(devices, sessions);
+    devices.forEach(device => device.on('updated', () => render(devices, sessions)));
+    sessions.forEach(session => session.on('updated', () => render(devices, sessions)));
 }
 
 async function handleCode(code) {
@@ -51,7 +57,7 @@ function connect(device) {
     alert(`connect to ${device.id}`);
 }
 
-function render(devices=[]) {
+function render(devices=[], sessions=[]) {
     ReactDOM.render(
         <React.StrictMode>
             <div className="options">
@@ -59,6 +65,7 @@ function render(devices=[]) {
             </div>
             <App
                 devices={devices.map(d => d.toJSON())}
+                sessions={sessions.map(s => s.toJSON())}
                 handleCode={handleCode}
                 connect={connect}
             />
