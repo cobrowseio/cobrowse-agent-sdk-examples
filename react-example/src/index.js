@@ -27,7 +27,7 @@ async function refresh() {
     // list some devices to use in example UIs
     const [devices, sessions] = await Promise.all([
         cobrowse.devices.list(),
-        cobrowse.sessions.list({state:['active', 'ended']})
+        cobrowse.sessions.list({state:['active', 'ended'], activated: new Date(0)})
     ]);
 
     // subscribe to updates for these resources
@@ -41,20 +41,26 @@ async function refresh() {
     sessions.forEach(session => session.on('updated', () => render(devices, sessions)));
 }
 
+function connect(device) {
+    window.open(`${cobrowse.api}/connect/device/${device.id}?token=${cobrowse.token}&end_action=none`);
+}
+
+function openSession(session) {
+    if (session.recorded && session.state === 'ended')
+        window.open(`${cobrowse.api}/session/${session.id}/recording?token=${cobrowse.token}`);
+    else window.open(`${cobrowse.api}/session/${session.id}?token=${cobrowse.token}`);
+}
+
 async function handleCode(code) {
     try {
         const session = await cobrowse.sessions.get(code);
         if (session) {
-            alert(`Load session ${session.id}`);
+            openSession(session);
             return true;
         }
     } catch(e) {
         return false;
     }
-}
-
-function connect(device) {
-    alert(`connect to ${device.id}`);
 }
 
 function render(devices=[], sessions=[]) {
@@ -68,6 +74,7 @@ function render(devices=[], sessions=[]) {
                 sessions={sessions.map(s => s.toJSON())}
                 handleCode={handleCode}
                 connect={connect}
+                openSession={openSession}
             />
         </React.StrictMode>,
         document.getElementById('root')

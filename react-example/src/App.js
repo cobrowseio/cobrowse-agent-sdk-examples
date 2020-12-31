@@ -1,4 +1,4 @@
-import { SmartConnectButton, PlatformIcon, Device, DeviceList, SessionList, CodeEntry } from 'cobrowse-agent-ui';
+import { SmartConnectButton, PlatformIcon, Device, Session, CodeEntry } from 'cobrowse-agent-ui';
 
 function App(props) {
 
@@ -22,7 +22,7 @@ function App(props) {
 
             <h2>Device Listing</h2>
             <p>A list of devices whose details update in real time.</p>
-            <DeviceList devices={props.devices} connect={props.connect} />
+            { props.devices.map(d => <Device device={d} connect={props.connect} /> )}
 
             <p>A device list with some customisation.</p>
             { props.devices.map(d => (
@@ -40,7 +40,7 @@ function App(props) {
 
             <h2>Session Listing</h2>
             <p>A list of previous sessions.</p>
-            <SessionList sessions={props.sessions} />
+            { props.sessions.map(s => <Session session={s} onClick={() => props.openSession(s)} style={{cursor:'pointer'}} />)}
 
         </div>
     );
