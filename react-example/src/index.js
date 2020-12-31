@@ -41,14 +41,25 @@ async function refresh() {
     sessions.forEach(session => session.on('updated', () => render(devices, sessions)));
 }
 
+async function watch(win) {
+    const ctx = await cobrowse.attachContext(win);
+    ctx.on('session.updated', (session) => {
+        if (session.ended) {
+            win.close();
+            refresh();
+            ctx.destroy();
+        }
+    });
+}
+
 function connect(device) {
-    window.open(`${cobrowse.api}/connect/device/${device.id}?token=${cobrowse.token}&end_action=none`);
+    watch(window.open(`${cobrowse.api}/connect/device/${device.id}?token=${cobrowse.token}&end_action=none`));
 }
 
 function openSession(session) {
     if (session.recorded && session.state === 'ended')
         window.open(`${cobrowse.api}/session/${session.id}/recording?token=${cobrowse.token}`);
-    else window.open(`${cobrowse.api}/session/${session.id}?token=${cobrowse.token}`);
+    else watch(window.open(`${cobrowse.api}/session/${session.id}?token=${cobrowse.token}`));
 }
 
 async function handleCode(code) {
