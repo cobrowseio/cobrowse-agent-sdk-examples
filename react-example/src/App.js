@@ -42,6 +42,19 @@ function App(props) {
             <p>A list of previous sessions.</p>
             { props.sessions.map(s => <Session key={s.id} session={s} onClick={() => props.openSession(s)} style={{cursor:'pointer'}} />)}
 
+            <p>A session list with some customisation.</p>
+            { props.sessions.map(s => (
+                <div key={s.id} style={{borderRadius:5, marginTop: 7}}>
+                    <Session style={{border: '0px none', marginTop: 7}} onClick={() => props.openSession(s)} session={s} />
+                    { Object.keys(s.custom_data).map(key => (
+                        <div style={{display:'inline-block', margin: 4, padding: '3px 7px', fontSize:12, borderRadius:10, background:'#f3f3f3'}} key={key}>
+                            <b>{key}</b><span> = </span><code>{s.custom_data[key]}</code>
+                        </div>
+                    ))}
+                </div>
+            ))}
+
+
         </div>
     );
 }
