@@ -1,1 +1,3 @@
-agent-sdk-example/node_modules
+node_modules
+recording-download/recordings
+private.pem
