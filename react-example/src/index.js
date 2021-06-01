@@ -5,7 +5,7 @@ import './index.css'
 import App from './App'
 
 // create an API instance
-const cobrowse = new CobrowseAPI(null, { api: 'https://cobrowse.eu.ngrok.io' })
+const cobrowse = new CobrowseAPI()
 
 async function fetchToken (demoid) {
   // !! WARNING READ THIS !!
