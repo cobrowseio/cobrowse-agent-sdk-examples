@@ -26,8 +26,11 @@ module.exports = {
     path: path.resolve(__dirname, './dist')
   },
   devServer: {
-    open: 'http://localhost:8123/example.html',
+    open: 'http://localhost:8123/index.html',
     port: 8123,
-    publicPath: '/'
+    static: {
+      directory: __dirname,
+      publicPath: '/'
+    }
   }
 }
