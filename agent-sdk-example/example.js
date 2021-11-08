@@ -19,3 +19,6 @@ async function fetchToken () {
   session.subscribe()
   console.log('session code', session.code)
 }())
+
+// expose for usage in console
+window.CobrowseAPI = CobrowseAPI
