@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import { useParams } from 'react-router-dom'
 import crypto from 'crypto'
 import Button from './Button'
 import './OnlineDemo.css'
@@ -110,7 +109,7 @@ export default class OnlineDemo extends Component {
                 frameBorder={0}
                 width='100%'
                 height={600}
-                src={`https://cobrowse.io/dashboard?filter_cobrowseio_demo_id=${this.state.demo_id}&token=${this.state.token}`}
+                src={`/agent_demo?token=${this.state.token}&demo_id=${this.state.demo_id}`}
               />
             : null}
         </div>
