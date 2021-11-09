@@ -30,6 +30,7 @@ export default class AgentDemo extends Component {
       devices: [],
       token: query.get('token')
     }
+    this.sessionFrame = React.createRef()
 
     cobrowse.token = this.state.token
   }
@@ -71,6 +72,7 @@ export default class AgentDemo extends Component {
     return (
       <div className='agent-session'>
         <iframe
+          ref={this.sessionFrame}
           name={this.state.device_id}
           title='Agent Session'
           frameBorder={0}
@@ -124,12 +126,6 @@ export default class AgentDemo extends Component {
   }
 
   async getDevices () {
-    setTimeout(() => {
-      if (!this.state.device_id && context === null) {
-        this.getDevices()
-      }
-    }, 10000)
-
     const devices = await cobrowse.devices.list()
     const deviceIds = devices.map(device => device.id)
     const { devices: old } = this.state
@@ -156,11 +152,19 @@ export default class AgentDemo extends Component {
     this.setState({ devices })
   }
 
+  refreshDevices () {
+    if (!this.state.device_id && context === null) {
+      this.getDevices()
+    }
+
+    setTimeout(() => {
+      this.refreshDevices()
+    }, 10000)
+  }
+
   componentDidUpdate () {
     if (this.state.device_id && context === null) {
-      const iframe = document.querySelector(`[name="${this.state.device_id}"]`)
-
-      cobrowse.attachContext(iframe).then(result => {
+      cobrowse.attachContext(this.sessionFrame.current).then(result => {
         context = result
 
         context.on('session.updated', (session) => {
@@ -171,6 +175,6 @@ export default class AgentDemo extends Component {
   }
 
   componentDidMount () {
-    this.getDevices()
+    this.refreshDevices()
   }
 }
