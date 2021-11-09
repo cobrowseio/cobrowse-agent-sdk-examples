@@ -2,8 +2,68 @@
   margin: 0px;
 }
 
-.AgentDemo.row {
+.AgentDemo .agent-session {
+  background: #f7f7f7;
+}
+
+.AgentDemo .btn-row {
   margin-left: 0rem !important;
   margin-right: 0rem !important;
   padding-bottom: 30px;
+}
+
+.AgentDemo .btn-leave {
+  background: #de574d;
+}
+
+.AgentDemo .btn-left-most {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.AgentDemo .btn-right-most {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.AgentDemo .btn-middle {
+  border-radius: 0px
+}
+
+.AgentDemo .dvc-container {
+  border: 2px solid; /* ${device.online ? '#3cc56e' : '#eee'}`;*/
+  border-radius: 5px;
+  margin-top: 7px;
+  margin-left: 7px;
+  margin-right: 7px;
+  border-color: #eee;
+}
+
+.AgentDemo .dvc-container .Device {
+  border: 0px none;
+  margin-top: 7px;
+}
+
+.AgentDemo .dvc-container .custom-data {
+  display: inline-block;
+  margin: 4px;
+  padding: 3px 7px;
+  font-size: 12px;
+  border-radius: 10px;
+  background: #f3f3f3;
+}
+
+.AgentDemo .SmartConnectButton .PlatformIcon {
+  width: 20px;
+  height: 20px;
+  margin-left: 0px;
+}
+
+.AgentDemo .SmartConnectButton .smartbtn-content {
+  display: flex;
+  align-items: center;
+}
+
+.AgentDemo .SmartConnectButton .smartbtn-content span {
+  margin-left: 7px;
 }

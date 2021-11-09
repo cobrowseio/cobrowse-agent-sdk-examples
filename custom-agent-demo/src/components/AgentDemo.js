@@ -44,22 +44,22 @@ export default class AgentDemo extends Component {
     if (devices.length > 0) {
       return devices.map(device => {
         return (
-          <div key={device.id} style={{ border: `2px solid ${device.online ? '#3cc56e' : '#eee'}`, borderRadius: 5, marginTop: 7, marginLeft: 7, marginRight: 7 }}>
-            <Device style={{border: '0px none', marginTop: 7}} device={device}>
+          <div key={device.id} className='dvc-container' style={{ borderColor: device.online ? '#3cc56e' : '#eee' }}>
+            <Device device={device}>
             <SmartConnectButton
               key={device.id}
               label={
-                <div style={{display:'flex', alignItems:'center'}}>
-                  <PlatformIcon style={{width: 20, height: 20, marginLeft:0}} platform={device.device.platform} />
-                  <span style={{marginLeft:7}}>Join</span>
+                <div className='smartbtn-content'>
+                  <PlatformIcon platform={device.device.platform} />
+                  <span> Join</span>
                 </div>
               }
               onClick={() => this.connect(device.id)}
               device={device}
             />
             </Device>
-            { Object.keys(device.custom_data).map(key => (
-              <div style={{ display: 'inline-block', margin: 4, padding: '3px 7px', fontSize: 12, borderRadius: 10, background:'#f3f3f3' }} key={key}>
+            {Object.keys(device.custom_data).map(key => (
+              <div className='custom-data' key={key}>
                 <b>{key}</b><span> = </span><code>{device.custom_data[key]}</code>
               </div>
             ))}
@@ -75,7 +75,7 @@ export default class AgentDemo extends Component {
 
   renderSession () {
     return (
-      <div style={{ background: '#f7f7f7' }}>
+      <div className='agent-session'>
         <iframe
           name={this.state.device_id}
           title='Agent Session'
@@ -84,20 +84,20 @@ export default class AgentDemo extends Component {
           height={520}
           src={`https://cobrowse.io/connect/device/${this.state.device_id}?token=${this.state.token}&end_action=none&agent_tools=none&device_controls=none&nochrome=true`}
         />
-        <div className='AgentDemo row center-xs'>
-          <Button onClick={() => context.setTool('laser')} className='column' style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}>
+        <div className='btn-row row center-xs'>
+          <Button onClick={() => context.setTool('laser')} className='column btn-left-most'>
             <FontAwesomeIcon icon={faPen} /><span> Point</span>
           </Button>
-          <Button onClick={() => context.setTool('drawing')} className='column' style={{ borderRadius: 0 }}>
+          <Button onClick={() => context.setTool('drawing')} className='column btn-middle'>
             <FontAwesomeIcon icon={faPencilAlt} /><span> Draw</span>
           </Button>
-          <Button onClick={() => context.clearAnnotations()} className='column' style={{ borderRadius: 0 }}>
+          <Button onClick={() => context.clearAnnotations()} className='column btn-middle'>
             <FontAwesomeIcon icon={faTrash} /><span> Erase</span>
           </Button>
-          <Button onClick={() => context.setTool('control')} className='column' style={{ borderRadius: 0 }}>
+          <Button onClick={() => context.setTool('control')} className='column btn-middle'>
             <FontAwesomeIcon icon={faHandPointer} /><span> Control</span>
           </Button>
-          <Button onClick={() => context.endSession()} className='column' style={{ background: '#de574d', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}>
+          <Button onClick={() => context.endSession()} className='column btn-right-most btn-leave'>
             <FontAwesomeIcon icon={faDoorOpen} /><span> Leave</span>
           </Button>
         </div>
@@ -119,7 +119,7 @@ export default class AgentDemo extends Component {
 
   render () {
     return (
-      <div>
+      <div class='AgentDemo'>
         {
           this.state.device_id
             ? this.renderSession()
