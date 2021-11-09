@@ -9,6 +9,17 @@ import './AgentDemo.css'
 const cobrowse = new CobrowseAPI()
 let context = null
 
+function arrayEquals(a, b) {
+  if (Array.isArray(a) && Array.isArray(b)) {
+    a = a.sort()
+    b = b.sort()
+  } else {
+    return false
+  }
+
+  return a.length === b.length && a.every((val, index) => val === b[index])
+}
+
 export default class AgentDemo extends Component {
   constructor () {
     super()
@@ -21,21 +32,6 @@ export default class AgentDemo extends Component {
     }
 
     cobrowse.token = this.state.token
-  }
-
-  async getDevices () {
-    const devices = await cobrowse.devices.list()
-
-    if (Array.isArray(devices)) {
-      devices.forEach(device => {
-        device.subscribe()
-        device.on('updated', () => {
-          this.setState({ state: this.state })
-        })
-      })
-    }
-
-    this.setState({ devices })
   }
 
   renderDevices () {
@@ -66,8 +62,6 @@ export default class AgentDemo extends Component {
           </div>
         )
       })
-    } else {
-      this.getDevices()
     }
 
     return null
@@ -105,6 +99,18 @@ export default class AgentDemo extends Component {
     )
   }
 
+  render () {
+    return (
+      <div className='AgentDemo'>
+        {
+          this.state.device_id
+            ? this.renderSession()
+            : this.renderDevices()
+        }
+      </div>
+    )
+  }
+
   connect (deviceId) {
     this.setState({ device_id: deviceId })
   }
@@ -117,16 +123,37 @@ export default class AgentDemo extends Component {
     }
   }
 
-  render () {
-    return (
-      <div class='AgentDemo'>
-        {
-          this.state.device_id
-            ? this.renderSession()
-            : this.renderDevices()
-        }
-      </div>
-    )
+  async getDevices () {
+    setTimeout(() => {
+      if (!this.state.device_id && context === null) {
+        this.getDevices()
+      }
+    }, 10000)
+
+    const devices = await cobrowse.devices.list()
+    const deviceIds = devices.map(device => device.id)
+    const { devices: old } = this.state
+    const oldIds = old.map(device => device.id)
+
+    // If the device sets are the same, do nothing with the data.
+    if (arrayEquals(deviceIds, oldIds)) return
+
+    if (Array.isArray(devices)) {
+      devices.forEach(device => {
+        device.subscribe()
+        device.on('updated', () => {
+          this.setState({ state: this.state })
+        })
+      })
+    }
+
+    if (Array.isArray(old)) {
+      old.forEach(device => {
+        device.unsubscribe()
+      })
+    }
+
+    this.setState({ devices })
   }
 
   componentDidUpdate () {
@@ -141,5 +168,9 @@ export default class AgentDemo extends Component {
         })
       })
     }
+  }
+
+  componentDidMount () {
+    this.getDevices()
   }
 }
