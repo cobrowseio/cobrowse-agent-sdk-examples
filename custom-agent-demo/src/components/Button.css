@@ -16,7 +16,7 @@
 }
 
 .Button:hover:not([disabled]) {
-    transform: scale(1.03);
+    transform: scale(1.08);
 }
 
 .Button[disabled] {

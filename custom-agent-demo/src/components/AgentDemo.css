@@ -6,14 +6,32 @@
   background: #f7f7f7;
 }
 
+.AgentDemo .Button {
+  padding: 8px 12px;
+  border-radius: 30px;
+  background: linear-gradient(175deg, #22a9da 70%, #1b81a7);
+  font-size: 0.85em;
+}
+
 .AgentDemo .btn-row {
   margin-left: 0rem !important;
   margin-right: 0rem !important;
-  padding-bottom: 30px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.AgentDemo .control-panel {
+  position: relative;
+  align-self: center;
+  background: linear-gradient(175deg, #f7f7f7, #6e6e6e);
+  width: 60%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  border-radius: 30px;
 }
 
 .AgentDemo .btn-leave {
-  background: #de574d;
+  background: linear-gradient(175deg, #ff4830 68%, #972a1b);
 }
 
 .AgentDemo .btn-left-most {
@@ -32,4 +50,27 @@
 
 .AgentDemo .btn-connect {
   margin-top: 100px;
+}
+
+.AgentDemo .Timer {
+  margin-left: 10px;
+  font-size: 0.90em;
+  background: linear-gradient(175deg, #22a9da 50%, #1b81a7);
+}
+
+.AgentDemo .agent-icon {
+  text-align: center;
+  padding: 2px 6px;
+  margin-right: 10px;
+  border-radius: 10px;
+  border: 0px none;
+  background-color: #000;
+  color: #22a9da;
+  /* cursor: progress; */
+  /* transition: transform 0.2s linear, background-color 0.2s linear; */
+  /* box-shadow: 0px 1px 4px rgba(150, 150, 150, 0.05); */
+  position: relative;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 1.8em;
 }

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faDoorOpen, faPen, faPencilAlt, faHandPointer, faGlobe } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faDoorOpen, faPen, faPencilAlt, faHandPointer, faGlobe, faUserAstronaut } from '@fortawesome/free-solid-svg-icons'
 import CobrowseAPI from 'cobrowse-agent-sdk'
 import Button from './Button'
+import Timer from './Timer'
 import './AgentDemo.css'
 
 const cobrowse = new CobrowseAPI()
@@ -13,10 +14,9 @@ export default class AgentDemo extends Component {
     super()
     const query = new URLSearchParams(window.location.search)
     this.state = {
-      demo_id: query.get('demo_id'),
       connect: false,
-      device_id: null,
-      devices: [],
+      active: false,
+      demo_id: query.get('demo_id'),
       token: query.get('token')
     }
     this.sessionFrame = React.createRef()
@@ -39,14 +39,16 @@ export default class AgentDemo extends Component {
       <div className='agent-session'>
         <iframe
           ref={this.sessionFrame}
-          name={this.state.device_id}
           title='Agent Session'
           frameBorder={0}
           width='100%'
           height={520}
           src={`https://cobrowse.io/connect?filter_cobrowseio_demo_id=${this.state.demo_id}&token=${this.state.token}&end_action=none&agent_tools=none&device_controls=none&nochrome=true`}
         />
-        <div className='btn-row row center-xs'>
+        <div className='control-panel btn-row row center-xs'>
+          <div className='column agent-icon'>
+            <FontAwesomeIcon icon={faUserAstronaut} />
+          </div>
           <Button onClick={() => context.setTool('laser')} className='column btn-left-most'>
             <FontAwesomeIcon icon={faPen} /><span> Point</span>
           </Button>
@@ -62,6 +64,7 @@ export default class AgentDemo extends Component {
           <Button onClick={() => context.endSession()} className='column btn-right-most btn-leave'>
             <FontAwesomeIcon icon={faDoorOpen} /><span> Leave</span>
           </Button>
+          <Timer start={this.state.active} />
         </div>
       </div>
     )
@@ -83,8 +86,15 @@ export default class AgentDemo extends Component {
     this.setState({ connect: true })
   }
 
+  activated () {
+    this.setState({ active: true })
+  }
+
   disconnect () {
-    this.setState({ connect: false })
+    this.setState({
+      connect: false,
+      active: false
+    })
     if (context) {
       context.destroy()
       context = null
@@ -97,6 +107,7 @@ export default class AgentDemo extends Component {
         context = result
 
         context.on('session.updated', (session) => {
+          if (session.activated) this.activated()
           if (session.ended) this.disconnect()
         })
       })
