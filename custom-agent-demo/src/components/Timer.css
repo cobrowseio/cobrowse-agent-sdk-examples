@@ -1,0 +1,24 @@
+.Timer {
+  text-align: center;
+  padding: 10px 12px;
+  border-radius: 30px;
+  border: 0px none;
+  background-color: #22a9da;
+  color: white;
+  cursor: progress;
+  transition: transform 0.2s linear, background-color 0.2s linear;
+  box-shadow: 0px 1px 4px rgba(150, 150, 150, 0.05);
+  position: relative;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 1em;
+}
+
+.Timer .time {
+  display: inline-block;
+  width: 3.5rem;
+  margin-left: 10px;
+  border-radius: 30px;
+  border: 0px none;
+  box-shadow: inset 0px 0px 400px 110px rgba(0, 0, 0, .25);
+}
