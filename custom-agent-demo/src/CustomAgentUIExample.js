@@ -11,6 +11,7 @@ export default function CustomAgentUIExample(props) {
   const [ session, setSession ] = useState(null)
   const [ tool, setTool ] = useState('laser')
   const [ context, setContext ] = useState()
+  const [ videoSize, setVideoSize ] = useState()
 
   async function onIframeRef(iframe) {
     if ((!context) && iframe) {
@@ -24,6 +25,9 @@ export default function CustomAgentUIExample(props) {
           setContext(null)
         }
       })
+      ctx.on('screen.updated', size => {
+        setVideoSize(size)
+      })
       setContext(ctx)
     }
   }
@@ -31,6 +35,13 @@ export default function CustomAgentUIExample(props) {
   function pickTool(tool) {
     setTool(tool)
     context?.setTool(tool)
+  }
+
+  function renderConnectingMessage() {
+    if (!session || session?.state === 'pending') return <div className={'loading'}>Custom connecting to device message...</div>
+    if (session?.state === 'authorizing') return <div className={'loading'}>Custom waiting for user to accept message...</div>
+    if (!(videoSize?.width)) return <div className={'loading'}>Custom loading loading video stream message...</div>
+    return null
   }
 
   function renderControls () {
@@ -67,6 +78,7 @@ export default function CustomAgentUIExample(props) {
   return (
     <div className='CustomAgentUIExample'>
       <div className='agent-session'>
+        { renderConnectingMessage() }
         <iframe
           ref={onIframeRef}
           className={'screen'}
