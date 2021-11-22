@@ -17,4 +17,7 @@ jobs:
           check-latest: true
       - run: npm --no-color install
       - run: npm run build
-      - run: ./node_modules/.bin/gh-pages -d build --repo "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
