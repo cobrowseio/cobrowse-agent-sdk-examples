@@ -2,6 +2,7 @@
   "name": "react-example",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://cobrowseio.github.io/cobrowse-agent-sdk-examples/react-example",
   "dependencies": {
     "cobrowse-agent-sdk": "0.0.3",
     "cobrowse-agent-ui": "github:cobrowseio/cobrowse-agent-ui",

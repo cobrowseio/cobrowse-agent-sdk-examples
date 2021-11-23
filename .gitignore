@@ -1,3 +1,6 @@
 node_modules
 recording-download/recordings
 private.pem
+build
+# We don't need this for running top-level commands.
+package-lock.json

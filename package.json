@@ -1,0 +1,25 @@
+{
+  "name": "cobrowse-agent-sdk-examples",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dummy package for github pages build.",
+  "main": "\"\"",
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "build": "./build.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cobrowseio/cobrowse-agent-sdk-examples.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cobrowseio/cobrowse-agent-sdk-examples/issues"
+  },
+  "homepage": "https://github.com/cobrowseio/cobrowse-agent-sdk-examples#readme",
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
+  }
+}

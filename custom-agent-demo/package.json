@@ -2,6 +2,7 @@
   "name": "custom-agent-demo",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://cobrowseio.github.io/cobrowse-agent-sdk-examples/custom-agent-demo",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
@@ -35,8 +36,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "gh-pages": "^3.2.3"
   }
 }
