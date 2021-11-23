@@ -8,8 +8,8 @@ Our Agent API can be used to build 100% customized agent-side integrations into 
 
 ## Live demo links
 
-- [Agent JS API Demo Page](https://aaronhuggins.github.io/cobrowse-agent-sdk-examples/react-example/)
-- [Custom Agent Demo Page](https://aaronhuggins.github.io/cobrowse-agent-sdk-examples/custom-agent-demo/)
+- [Agent JS API Demo Page](https://cobrowseio.github.io/cobrowse-agent-sdk-examples/react-example/)
+- [Custom Agent Demo Page](https://cobrowseio.github.io/cobrowse-agent-sdk-examples/custom-agent-demo/)
 
 ## React Example
 
@@ -17,7 +17,7 @@ Our React example demonstrates custom widgets to show how you can completely cus
 
 ### Quick start
 
-Navigate to our [Agent JS API Demo Page](https://aaronhuggins.github.io/cobrowse-agent-sdk-examples/react-example/) and open up our [Cobrowse.io Online Demo](https://cobrowse.io/demo) in another browser tab to generate your Demo ID. 
+Navigate to our [Agent JS API Demo Page](https://cobrowseio.github.io/cobrowse-agent-sdk-examples/react-example/) and open up our [Cobrowse.io Online Demo](https://cobrowse.io/demo) in another browser tab to generate your Demo ID. 
 
 This Demo Page uses our [Agent UI component library](https://github.com/cobrowseio/cobrowse-agent-ui), our [Agent JS API (JavaScript SDK)](https://www.npmjs.com/package/cobrowse-agent-sdk), and ties it together into this example project which you can run locally. 
 
@@ -36,7 +36,7 @@ Our custom agent demo allows you to view and interact with a completely replaced
 
 ### Quick start
 
-Navigate to our [Custom Agent Demo Page](https://aaronhuggins.github.io/cobrowse-agent-sdk-examples/custom-agent-demo/) to automatically start an agent session and simulate the agent and customer experience.
+Navigate to our [Custom Agent Demo Page](https://cobrowseio.github.io/cobrowse-agent-sdk-examples/custom-agent-demo/) to automatically start an agent session and simulate the agent and customer experience.
 
 This Demo Page uses our [Agent JS API (JavaScript SDK)](https://www.npmjs.com/package/cobrowse-agent-sdk) in this example project which you can run locally. 
 
