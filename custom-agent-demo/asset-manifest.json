@@ -5,15 +5,15 @@
     "main.js.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/main.de593d65.chunk.js.map",
     "runtime-main.js": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/runtime-main.3b8768fa.js",
     "runtime-main.js.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/runtime-main.3b8768fa.js.map",
-    "static/js/2.ce7a5337.chunk.js": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/2.ce7a5337.chunk.js",
-    "static/js/2.ce7a5337.chunk.js.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/2.ce7a5337.chunk.js.map",
+    "static/js/2.9ff6c0f3.chunk.js": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/2.9ff6c0f3.chunk.js",
+    "static/js/2.9ff6c0f3.chunk.js.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/2.9ff6c0f3.chunk.js.map",
     "index.html": "/cobrowse-agent-sdk-examples/custom-agent-demo/index.html",
     "static/css/main.00926986.chunk.css.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/css/main.00926986.chunk.css.map",
-    "static/js/2.ce7a5337.chunk.js.LICENSE.txt": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/2.ce7a5337.chunk.js.LICENSE.txt"
+    "static/js/2.9ff6c0f3.chunk.js.LICENSE.txt": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/2.9ff6c0f3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.3b8768fa.js",
-    "static/js/2.ce7a5337.chunk.js",
+    "static/js/2.9ff6c0f3.chunk.js",
     "static/css/main.00926986.chunk.css",
     "static/js/main.de593d65.chunk.js"
   ]

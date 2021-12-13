@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/cobrowse-agent-sdk-examples/react-example/static/css/main.936f2261.chunk.css",
-    "main.js": "/cobrowse-agent-sdk-examples/react-example/static/js/main.7e1b73d7.chunk.js",
-    "main.js.map": "/cobrowse-agent-sdk-examples/react-example/static/js/main.7e1b73d7.chunk.js.map",
-    "runtime-main.js": "/cobrowse-agent-sdk-examples/react-example/static/js/runtime-main.7ad698fd.js",
-    "runtime-main.js.map": "/cobrowse-agent-sdk-examples/react-example/static/js/runtime-main.7ad698fd.js.map",
-    "static/css/2.9debec79.chunk.css": "/cobrowse-agent-sdk-examples/react-example/static/css/2.9debec79.chunk.css",
-    "static/js/2.94d9c2c3.chunk.js": "/cobrowse-agent-sdk-examples/react-example/static/js/2.94d9c2c3.chunk.js",
-    "static/js/2.94d9c2c3.chunk.js.map": "/cobrowse-agent-sdk-examples/react-example/static/js/2.94d9c2c3.chunk.js.map",
+    "main.js": "/cobrowse-agent-sdk-examples/react-example/static/js/main.c6ff719c.chunk.js",
+    "main.js.map": "/cobrowse-agent-sdk-examples/react-example/static/js/main.c6ff719c.chunk.js.map",
+    "runtime-main.js": "/cobrowse-agent-sdk-examples/react-example/static/js/runtime-main.e6786e9a.js",
+    "runtime-main.js.map": "/cobrowse-agent-sdk-examples/react-example/static/js/runtime-main.e6786e9a.js.map",
+    "static/css/2.6d63cc52.chunk.css": "/cobrowse-agent-sdk-examples/react-example/static/css/2.6d63cc52.chunk.css",
+    "static/js/2.fd209fea.chunk.js": "/cobrowse-agent-sdk-examples/react-example/static/js/2.fd209fea.chunk.js",
+    "static/js/2.fd209fea.chunk.js.map": "/cobrowse-agent-sdk-examples/react-example/static/js/2.fd209fea.chunk.js.map",
     "index.html": "/cobrowse-agent-sdk-examples/react-example/index.html",
-    "static/css/2.9debec79.chunk.css.map": "/cobrowse-agent-sdk-examples/react-example/static/css/2.9debec79.chunk.css.map",
+    "static/css/2.6d63cc52.chunk.css.map": "/cobrowse-agent-sdk-examples/react-example/static/css/2.6d63cc52.chunk.css.map",
     "static/css/main.936f2261.chunk.css.map": "/cobrowse-agent-sdk-examples/react-example/static/css/main.936f2261.chunk.css.map",
-    "static/js/2.94d9c2c3.chunk.js.LICENSE.txt": "/cobrowse-agent-sdk-examples/react-example/static/js/2.94d9c2c3.chunk.js.LICENSE.txt"
+    "static/js/2.fd209fea.chunk.js.LICENSE.txt": "/cobrowse-agent-sdk-examples/react-example/static/js/2.fd209fea.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.7ad698fd.js",
-    "static/css/2.9debec79.chunk.css",
-    "static/js/2.94d9c2c3.chunk.js",
+    "static/js/runtime-main.e6786e9a.js",
+    "static/css/2.6d63cc52.chunk.css",
+    "static/js/2.fd209fea.chunk.js",
     "static/css/main.936f2261.chunk.css",
-    "static/js/main.7e1b73d7.chunk.js"
+    "static/js/main.c6ff719c.chunk.js"
   ]
 }
