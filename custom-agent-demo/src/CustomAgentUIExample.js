@@ -16,6 +16,7 @@ export default function CustomAgentUIExample(props) {
   async function onIframeRef(iframe) {
     if ((!context) && iframe) {
       const ctx = await cobrowse.attachContext(iframe)
+      window.cobrowse_ctx = ctx
       ctx.on('session.updated', session => {
         // update the component session state
         setSession(session.toJSON())
