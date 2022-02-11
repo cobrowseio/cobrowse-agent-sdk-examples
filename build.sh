@@ -6,7 +6,7 @@ fi
 
 mkdir "./build"
 
-function react_build () {
+function build () {
   PWD_CACHE="$PWD"
   cd $1
   npm install
@@ -19,9 +19,9 @@ function copy_build () {
   cp -rf "./${1}/build/." "./build/${1}/"
 }
 
-react_build "custom-agent-demo"
+build "custom-agent-demo"
 copy_build "custom-agent-demo"
-react_build "react-example"
+build "react-example"
 copy_build "react-example"
 
 cp -f "./README.md" "./build/"
