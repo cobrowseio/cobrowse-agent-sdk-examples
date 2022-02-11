@@ -6,6 +6,7 @@ import App from './App'
 
 // create an API instance
 const cobrowse = new CobrowseAPI()
+window.cobrowse = cobrowse
 
 async function fetchToken (demoid) {
   // !! WARNING READ THIS !!
