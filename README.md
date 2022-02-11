@@ -13,7 +13,7 @@ Our Agent API can be used to build 100% customized agent-side integrations into 
 
 ## React Components Example
 
-Our [React example](https://cobrowseio.github.io/cobrowse-agent-sdk-examples/react-example/) demonstrates custom widgets to show how you can completely customize your Cobrowse.io experience.
+Our [React example](https://cobrowseio.github.io/cobrowse-agent-sdk-examples/react-example/) demonstrates custom widgets to show how you can completely customize your Cobrowse.io experience. [Read more](./react-example) about how to run this example.
 
 
 ## Custom Agent Demo
