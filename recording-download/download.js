@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import fetch from 'node-fetch'
+import CobrowseAPI from 'cobrowse-agent-sdk'
 import jwt from 'jsonwebtoken'
 import fs from 'fs'
 import fsPromises from 'fs/promises'
@@ -12,7 +12,10 @@ const email = 'your@email.com'
 const licenseKey = 'yourlicensekeyhere'
 const downloadPath = './recordings'
 
-// generate a JWT to access the API
+// Generate a JWT to access the API
+// IMPORTANT: You should of course generate your own private key
+//            and store it securely. This is an example only and
+//            shoud not be used for production use cases!
 const privateKey = fs.readFileSync('./private.pem')
 const token = jwt.sign({
   displayName: email,
@@ -25,47 +28,10 @@ const token = jwt.sign({
   algorithm: 'RS256'
 })
 
-// recursively fetch all ended sessions since start
-async function listSessions (from, accumulator = []) {
-  const last = accumulator[accumulator.length - 1]
-  const end = last?.activated || new Date().toISOString()
-  const res = await fetch(`${API}/api/1/sessions?agent=all&state=ended&activated_after=${from.toISOString()}&activated_before=${end}&limit=1000`, {
-    headers: { Authorization: `Bearer ${token}` }
-  })
-  if (!res.ok) throw new Error(`Failed to fetch sessions: ${await res.text()}`)
-  const sessions = await res.json()
-  if (sessions.length === 0) return accumulator
-  return listSessions(from, [...accumulator, ...sessions])
-}
+// Initialise the Cobrowse Agent SDK
+const cobrowse = new CobrowseAPI(token, { api: API })
 
-// download the constituent parts of the recording
-async function downloadRecording (session) {
-  // download the recording metadata
-  const recordingRes = await fetch(`${API}/api/1/sessions/${session.id}/recording`, {
-    headers: { Authorization: `Bearer ${token}` }
-  })
-  if (!recordingRes.ok) throw new Error(`Failed to fetch recording: ${await recordingRes.text()}`)
-  const recording = await recordingRes.json()
-
-  // fetch the agent actions from the link in the metadata
-  const actionsRes = await fetch(`${API}${recording.actions}`)
-  if (!actionsRes.ok) throw new Error(`Failed to fetch actions: ${await actionsRes.text()}`)
-
-  // fetch the video (if there is one) using the link in the metadata
-  const videoRes = await fetch(`${API}${recording.video}`)
-  if (!videoRes.ok) throw new Error(`Failed to fetch video: ${await videoRes.text()}`)
-  return { session, recording, actions: actionsRes.body, video: videoRes.body }
-}
-
-async function saveRecording (path, data) {
-  await Promise.all([
-    promisify(pipeline)(data.actions, fs.createWriteStream(`${path}/actions.json`)),
-    promisify(pipeline)(data.video, fs.createWriteStream(`${path}/video.mp4`)),
-    fsPromises.writeFile(`${path}/session.json`, JSON.stringify(data.session, null, '  ')),
-    fsPromises.writeFile(`${path}/events.json`, JSON.stringify(data.recording.events, null, '  '))
-  ])
-}
-
+// Simple function to check if a file exists
 async function exists (path) {
   try {
     await fsPromises.stat(path)
@@ -76,10 +42,26 @@ async function exists (path) {
   }
 }
 
+// Fetch all ended sessions since start
+async function * listSessions (from) {
+  let sessions = []
+  do {
+    const last = sessions[sessions.length - 1]
+    sessions = await cobrowse.sessions.list({
+      agent: 'all',
+      state: 'ended',
+      activated_after: from.toISOString(),
+      activated_before: last?.activated || new Date().toISOString(),
+      limit: 1000
+    })
+    for (const session of sessions) yield session
+  } while (sessions.length)
+}
+
+// Loop through the fetched sessions and download the recordings
+// for each if they have not already been downloaded.
 async function download ({ from, prefix }) {
-  const sessions = await listSessions(from)
-  console.log(`Found ${sessions.length} sessions`)
-  for (const session of sessions) {
+  for await (const session of listSessions(from)) {
     process.stdout.write(`Downloading ${session.id}... `)
 
     if (!session.recorded) {
@@ -95,10 +77,19 @@ async function download ({ from, prefix }) {
     }
 
     try {
-      await fsPromises.mkdir(path, { recursive: true })
-      const data = await downloadRecording(session)
+      // start the download of the various recording components
+      const recording = await session.recording()
+      const [video, events] = await Promise.all([recording.video.fetch(), recording.events()])
       process.stdout.write('writing files... ')
-      await saveRecording(path, data)
+      await fsPromises.mkdir(path, { recursive: true })
+      // generate an appropriate file extensions
+      const ext = video.headers.get('Content-Type')?.match(/video\/([a-z0-9]+).*/i)?.[1] || 'mp4'
+      // download the video data if it was a video content type
+      if (ext) await promisify(pipeline)(video.body, fs.createWriteStream(`${path}/video.${ext}`))
+      // save the event json data that contains annotations and other updates
+      await fsPromises.writeFile(`${path}/session.json`, JSON.stringify(session, null, '  '))
+      // save the session json data as well
+      await fsPromises.writeFile(`${path}/events.json`, JSON.stringify(events, null, '  '))
       console.log('success')
     } catch (e) {
       console.log('FAILED')
@@ -109,7 +100,7 @@ async function download ({ from, prefix }) {
   }
 }
 
-// dowload recordings for the past 7 days
+// Dowload recordings for the past 7 days
 download({
   from: new Date(Date.now() - (7 * 24 * 60 * 60 * 1000)),
   prefix: downloadPath
