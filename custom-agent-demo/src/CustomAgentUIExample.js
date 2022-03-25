@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPhone, faPen, faMarker, faDesktop, faHandPointer } from '@fortawesome/free-solid-svg-icons'
 import CobrowseAPI from 'cobrowse-agent-sdk'
@@ -11,7 +11,14 @@ export default function CustomAgentUIExample(props) {
   const [ session, setSession ] = useState(null)
   const [ tool, setTool ] = useState('laser')
   const [ context, setContext ] = useState()
-  const [ videoSize, setVideoSize ] = useState()
+  const [ screenInfo, setScreenInfo ] = useState()
+
+  // we show some messages a few seconds after a timestamp, so
+  // so we need for force renders to catch that
+  useEffect(() => {
+    const intervalId = setInterval(() => setScreenInfo({ ...screenInfo, time: Date.now() }), 500)
+    return () => clearInterval(intervalId)
+  }, [screenInfo])
 
   async function onIframeRef(iframe) {
     if ((!context) && iframe) {
@@ -26,8 +33,8 @@ export default function CustomAgentUIExample(props) {
           setContext(null)
         }
       })
-      ctx.on('screen.updated', size => {
-        setVideoSize(size)
+      ctx.on('screen.updated', info => {
+        setScreenInfo(info)
       })
       setContext(ctx)
     }
@@ -41,7 +48,16 @@ export default function CustomAgentUIExample(props) {
   function renderConnectingMessage() {
     if (!session || session?.state === 'pending') return <div className={'loading'}>Custom connecting to device message...</div>
     if (session?.state === 'authorizing') return <div className={'loading'}>Custom waiting for user to accept message...</div>
-    if (!(videoSize?.width)) return <div className={'loading'}>Custom loading loading video stream message...</div>
+    if (!(screenInfo?.width)) return <div className={'loading'}>Custom loading loading video stream message...</div>
+    return null
+  }
+
+  function renderTimeoutMessage() {
+    if (session?.state === 'active' && screenInfo?.updated) {
+      const updated = new Date(screenInfo?.updated)
+      const delta = Date.now() - updated.getTime()
+      if (delta > 10 * 1000) return <div className={'disconnected'}>Having trouble reaching the device!</div>
+    }
     return null
   }
 
@@ -80,12 +96,13 @@ export default function CustomAgentUIExample(props) {
     <div className='CustomAgentUIExample'>
       <div className='agent-session'>
         { renderConnectingMessage() }
+        { renderTimeoutMessage() }
         <iframe
           ref={onIframeRef}
           className={'screen'}
           title='Agent Session'
           frameBorder={0}
-          src={`${props.api}/connect?filter_cobrowseio_demo_id=${props.demoId}&token=${props.token}&end_action=none&agent_tools=none&device_controls=none&nochrome=true&allow_popout=false`}
+          src={`${props.api}/connect?filter_cobrowseio_demo_id=${props.demoId}&token=${props.token}&end_action=none&agent_tools=none&device_controls=none&session_details=none&popout=none&messages=none`}
         />
         { renderControls() }
       </div>
