@@ -9,6 +9,7 @@ const cobrowse = new CobrowseAPI()
 
 export default function CustomAgentUIExample(props) {
   const [ session, setSession ] = useState(null)
+  const [ error, setError ] = useState(null)
   const [ tool, setTool ] = useState('laser')
   const [ context, setContext ] = useState()
   const [ screenInfo, setScreenInfo ] = useState()
@@ -36,6 +37,9 @@ export default function CustomAgentUIExample(props) {
       ctx.on('screen.updated', info => {
         setScreenInfo(info)
       })
+      ctx.on('error', err => {
+        setError(err)
+      })
       setContext(ctx)
     }
   }
@@ -43,6 +47,12 @@ export default function CustomAgentUIExample(props) {
   function pickTool(tool) {
     setTool(tool)
     context?.setTool(tool)
+  }
+
+  function renderError() {
+    console.log(error)
+    if (error) return <div className={'error'}><b>Your custom error screen</b><p>id = {error.id}</p></div>
+    return null
   }
 
   function renderConnectingMessage() {
@@ -95,6 +105,7 @@ export default function CustomAgentUIExample(props) {
   return (
     <div className='CustomAgentUIExample'>
       <div className='agent-session'>
+        { renderError() }
         { renderConnectingMessage() }
         { renderTimeoutMessage() }
         <iframe

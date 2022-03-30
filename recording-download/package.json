@@ -5,7 +5,7 @@
   "main": "download.js",
   "type": "module",
   "dependencies": {
-    "cobrowse-agent-sdk": "^0.0.21",
+    "cobrowse-agent-sdk": "^0.0.22",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.1"
   },

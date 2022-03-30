@@ -8,17 +8,19 @@
   flex: 1;
 }
 
-.CustomAgentUIExample .disconnected {
+.CustomAgentUIExample .error {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
+  bottom: 0;
   padding: 20px;
   background: rgb(196, 64, 77);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  flex-direction: column;
+  z-index: 120;
 }
 
 .CustomAgentUIExample .loading {
@@ -28,6 +30,19 @@
   right: 0;
   bottom: 0;
   background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 110;
+}
+
+.CustomAgentUIExample .disconnected {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: rgb(196, 64, 77);
   display: flex;
   align-items: center;
   justify-content: center;

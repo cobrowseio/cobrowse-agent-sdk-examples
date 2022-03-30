@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://cobrowseio.github.io/cobrowse-agent-sdk-examples/react-example",
   "dependencies": {
-    "cobrowse-agent-sdk": "0.0.16",
+    "cobrowse-agent-sdk": "0.0.22",
     "cobrowse-agent-ui": "github:cobrowseio/cobrowse-agent-ui",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
