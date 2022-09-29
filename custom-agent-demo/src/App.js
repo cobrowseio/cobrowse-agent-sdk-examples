@@ -20,7 +20,7 @@ function App(props) {
             frameBorder={0}
             width={'100%'}
             height={'100%'}
-            src={`${props.api}/todomvc/index.html?cobrowseio_demo_id=${params.cobrowseio_demo_id}&device_name=Web%20Trial%20Device&license=${params.license}&api=${params.api}`}
+            src={`https://cobrowseio.github.io/todo-mvc-example/index.html?cobrowseio_demo_id=${params.cobrowseio_demo_id}&device_name=Web%20Trial%20Device&license=${params.license}&api=${params.api}`}
           />
         </FakeWindow>
       </div>
