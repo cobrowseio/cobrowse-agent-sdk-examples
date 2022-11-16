@@ -1,20 +1,13 @@
 {
   "files": {
-    "main.css": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/css/main.2b66586d.chunk.css",
-    "main.js": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/main.efb87be3.chunk.js",
-    "main.js.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/main.efb87be3.chunk.js.map",
-    "runtime-main.js": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/runtime-main.3b8768fa.js",
-    "runtime-main.js.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/runtime-main.3b8768fa.js.map",
-    "static/js/2.ce6b181b.chunk.js": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/2.ce6b181b.chunk.js",
-    "static/js/2.ce6b181b.chunk.js.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/2.ce6b181b.chunk.js.map",
+    "main.css": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/css/main.733f0cd2.css",
+    "main.js": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/main.08b2ba8c.js",
     "index.html": "/cobrowse-agent-sdk-examples/custom-agent-demo/index.html",
-    "static/css/main.2b66586d.chunk.css.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/css/main.2b66586d.chunk.css.map",
-    "static/js/2.ce6b181b.chunk.js.LICENSE.txt": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/2.ce6b181b.chunk.js.LICENSE.txt"
+    "main.733f0cd2.css.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/css/main.733f0cd2.css.map",
+    "main.08b2ba8c.js.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/main.08b2ba8c.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.3b8768fa.js",
-    "static/js/2.ce6b181b.chunk.js",
-    "static/css/main.2b66586d.chunk.css",
-    "static/js/main.efb87be3.chunk.js"
+    "static/css/main.733f0cd2.css",
+    "static/js/main.08b2ba8c.js"
   ]
 }
