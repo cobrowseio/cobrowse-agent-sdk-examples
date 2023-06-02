@@ -10,7 +10,7 @@ import { promisify } from 'util'
 const API = 'https://cobrowse.io'
 const email = 'your@email.com'
 const licenseKey = 'yourlicensekeyhere'
-const downloadPath = './recordings'
+const downloadPath = './downloaded_recordings'
 
 // Generate a JWT to access the API
 // IMPORTANT: You should of course generate your own private key
