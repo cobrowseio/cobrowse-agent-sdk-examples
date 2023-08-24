@@ -20,6 +20,9 @@ Our [React example](https://cobrowseio.github.io/cobrowse-agent-sdk-examples/rea
 
 Our [custom agent demo](https://cobrowseio.github.io/cobrowse-agent-sdk-examples/custom-agent-demo/) allows you to view and interact with a completely replaced agent user interface. [Read more](./custom-agent-demo) about how to run this example.
 
+## Recording Samples
+
+In [recordings](recordings/) you can find useful scripts to programatically download or delete session recordings from your account.
 
 ## Questions?
 Any questions at all? Please email us directly at [hello@cobrowse.io](mailto:hello@cobrowse.io).
