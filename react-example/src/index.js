@@ -51,12 +51,6 @@ async function watch (win) {
       ctx.destroy()
     }
   })
-
-  setTimeout(function () {
-    console.log('ending session')
-    ctx.endSession()
-    ctx.destroy()
-  }, 5000)
 }
 
 function connect (device) {
