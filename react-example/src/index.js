@@ -1,8 +1,10 @@
 import CobrowseAPI from 'cobrowse-agent-sdk'
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App'
+
+const root = createRoot(document.getElementById('root'))
 
 // create an API instance
 const cobrowse = new CobrowseAPI()
@@ -76,7 +78,7 @@ async function handleCode (code) {
 }
 
 function render (devices=[], sessions=[]) {
-  ReactDOM.render(
+  root.render(
     <React.StrictMode>
       <div className="options">
         Demo ID: <input onBlur={e => fetchToken(e.target.value)} defaultValue={window.localStorage.cobrowse_demo_id||''}/>
@@ -88,8 +90,7 @@ function render (devices=[], sessions=[]) {
         connect={connect}
         openSession={openSession}
       />
-    </React.StrictMode>,
-    document.getElementById('root')
+    </React.StrictMode>
   )
 }
 
