@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Present</title>
+    <script src="https://unpkg.com/cobrowse-agent-sdk@1.6.0/dist/umd-browser/cobrowse-agent-sdk.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jose/4.15.2/index.umd.min.js"></script>
+    <script src="https://js.cobrowse.io/CobrowseIO.js"></script>
+</head>
+
+<body>
+
+    <script>
+        const licenseKey = '<YOUR_LICENSE_KEY>'
+        const agentToken = '<AGENT_TOKEN>'
+        const cobrowse = new CobrowseAPI(agentToken);
+
+        var session
+
+        const createPresentSession = async () => {
+            // Create a new session with full device in requesting state
+            session = await cobrowse.sessions.create({ full_device: 'requested' })
+
+            const viewerToken = await generateViewerJWT(licenseKey, session.id)
+
+            // Generate the present URL for the session with the viewer token including all query parameters to hide agent tools from the viewer
+            const presentURL = `https://cobrowse.io/session/${session.id}?token=${viewerToken}&agent_tools=none&device_controls=none&end_action=none&popout=none&session_details=none`
+            document.getElementById('present-url').value = presentURL
+        }
+
+        const startPresentSession = async () => {
+            const media = await navigator.mediaDevices.getDisplayMedia({
+                video: {
+                    cursor: 'always',
+                    width: { ideal: 1400 },
+                    height: { ideal: 1000 },
+                    frameRate: { max: 10 }
+                },
+                audio: false
+            })
+
+            await CobrowseIO.client()
+
+            CobrowseIO.license = licenseKey
+            CobrowseIO.redactedViews = ['.container']
+            CobrowseIO.capabilities = ['full_device']
+            CobrowseIO.showSessionControls = () => { }
+            CobrowseIO.hideSessionControls = () => { }
+            CobrowseIO.confirmSession = async () => true
+            CobrowseIO.confirmFullDevice = async () => media
+            CobrowseIO.confirmRemoteControl = async () => false
+
+            CobrowseIO.on('session.updated', presentSession => {
+                if (presentSession.isActive()) {
+                    document.getElementById('share-button').style.display = 'none'
+                    document.getElementById('end-button').style.display = 'inline-block'
+
+                    if (!presentSession.fullDevice()) {
+                        session.end()
+                    }
+                }
+            })
+
+            CobrowseIO.on('session.ended', async presentSession => {
+                if (media) media.getTracks().forEach(track => track.stop())
+                resetPresentSession();
+            });
+
+            await CobrowseIO.start({ allowIFrameStart: true, register: false })
+
+            // Use the Client SDK to join the session
+            await CobrowseIO.getSession(session.id)
+        }
+
+        const resetPresentSession = async () => {
+
+            await CobrowseIO.stop()
+
+            document.getElementById('share-button').style.display = 'inline-block'
+            document.getElementById('end-button').style.display = 'none'
+
+            await createPresentSession();
+        }
+
+        const generateViewerJWT = async (license, id) => {
+            const alg = 'RS256'
+
+            // WE DO NOT RECOMMEND COMMITING YOUR PRIVATE KEY. THIS IS ONLY FOR DEMO PURPOSES.
+            // Replace with your private key in PKCS8 format
+            const pkcs8 = `-----BEGIN PRIVATE KEY-----
+            MIIJQQIBADANBgkqhkiR9w0BAQEFAASCCSswggknAgEAAoLLAQDmJ057nvWWpiTU
+            utfRCVYPSBYvtf0bRVso7o1B8tcecKNzYAYBD4cWekliW3+3XNGUdWvENpKYfhxp
+            ...
+            QXSU+SGTKsVjPZtEP4exydgTrXMx
+            -----END PRIVATE KEY-----`
+
+            const privateKey = await jose.importPKCS8(pkcs8, alg)
+
+            // Generate a viewer JWT token scoped to a single session
+            const jwt = await new jose.SignJWT({
+                displayName: "Viewer",
+                policy: {
+                    version: 2,
+                    sessions: {
+                        id: id
+                    }
+                }
+            })
+            .setProtectedHeader({ alg })
+            .setIssuedAt()
+            .setIssuer(licenseKey)
+            .setSubject('viewer@cobrowse.io')
+            .setAudience('https://cobrowse.io')
+            .setExpirationTime('30m') // Choose your own expiration time
+            .sign(privateKey)
+
+            return jwt
+        }
+
+        (async () => {
+            // On load create a new present session
+            await createPresentSession()
+        })();
+    </script>
+
+    <div class="container">
+        <div class="panel">
+            <input id="present-url">
+            <button id="share-button" onclick="startPresentSession()">Share my Desktop</button>
+            <button id="end-button" onclick="resetPresentSession()">End present session</button>
+        </div>
+    </div>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .panel {
+            background-color: #ffffff;
+            width: 80%;
+            max-width: 700px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #present-url {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #share-button,
+        #end-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #share-button:hover,
+        #end-button:hover {
+            background-color: #0056b3;
+        }
+
+        #end-button {
+            display: none;
+        }
+    </style>
+</body>
+
+</html>
