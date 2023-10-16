@@ -41,6 +41,10 @@
                 audio: false
             })
 
+            const video = document.getElementById('preview')
+            video.srcObject = media
+            video.play()
+
             await CobrowseIO.client()
 
             CobrowseIO.license = licenseKey
@@ -72,13 +76,7 @@
             await CobrowseIO.start({ allowIFrameStart: true, register: false })
 
             // Use the Client SDK to join the session
-            const presentSession = await CobrowseIO.getSession(session.id)
-
-            presentSession.on('media', media => {
-                const video = document.getElementById('preview')
-                video.srcObject = media
-                video.play()
-            })
+            await CobrowseIO.getSession(session.id)
         }
 
         const resetPresentSession = async () => {
