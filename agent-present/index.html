@@ -56,7 +56,7 @@
                 if (presentSession.isActive()) {
                     document.getElementById('share-button').style.display = 'none'
                     document.getElementById('end-button').style.display = 'block'
-                    document.querySelector('.video-container').style.display = 'block';
+                    document.getElementById('preview').style.display = 'block'
 
                     if (!presentSession.fullDevice()) {
                         session.end()
@@ -87,7 +87,7 @@
 
             document.getElementById('share-button').style.display = 'block'
             document.getElementById('end-button').style.display = 'none'
-            document.querySelector('.video-container').style.display = 'none';
+            document.getElementById('preview').style.display = 'none'
 
             await createPresentSession();
         }
@@ -138,9 +138,7 @@
             <input id="present-url">
             <button id="share-button" onclick="startPresentSession()">Share my Desktop</button>
             <button id="end-button" onclick="resetPresentSession()">End present session</button>
-            <div class="video-container">
-                <video id="preview"></video>
-            </div>
+            <video id="preview"></video>
         </div>
     </div>
 
@@ -202,18 +200,13 @@
             display: none;
         }
 
-        .video-container {
+        #preview {
             width: 100%;
             height: auto;
             margin-top: 20px;
             overflow: hidden;
             display: none;
             border: 1px solid #ccc;
-        }
-
-        #preview {
-            width: 100%;
-            height: auto;
         }
     </style>
 </body>
