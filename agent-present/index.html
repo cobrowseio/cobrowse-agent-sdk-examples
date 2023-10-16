@@ -55,7 +55,8 @@
             CobrowseIO.on('session.updated', presentSession => {
                 if (presentSession.isActive()) {
                     document.getElementById('share-button').style.display = 'none'
-                    document.getElementById('end-button').style.display = 'inline-block'
+                    document.getElementById('end-button').style.display = 'block'
+                    document.querySelector('.video-container').style.display = 'block';
 
                     if (!presentSession.fullDevice()) {
                         session.end()
@@ -71,15 +72,22 @@
             await CobrowseIO.start({ allowIFrameStart: true, register: false })
 
             // Use the Client SDK to join the session
-            await CobrowseIO.getSession(session.id)
+            const presentSession = await CobrowseIO.getSession(session.id)
+
+            presentSession.on('media', media => {
+                const video = document.getElementById('preview')
+                video.srcObject = media
+                video.play()
+            })
         }
 
         const resetPresentSession = async () => {
 
             await CobrowseIO.stop()
 
-            document.getElementById('share-button').style.display = 'inline-block'
+            document.getElementById('share-button').style.display = 'block'
             document.getElementById('end-button').style.display = 'none'
+            document.querySelector('.video-container').style.display = 'none';
 
             await createPresentSession();
         }
@@ -130,6 +138,9 @@
             <input id="present-url">
             <button id="share-button" onclick="startPresentSession()">Share my Desktop</button>
             <button id="end-button" onclick="resetPresentSession()">End present session</button>
+            <div class="video-container">
+                <video id="preview"></video>
+            </div>
         </div>
     </div>
 
@@ -158,6 +169,9 @@
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         #present-url {
@@ -186,6 +200,20 @@
 
         #end-button {
             display: none;
+        }
+
+        .video-container {
+            width: 100%;
+            height: auto;
+            margin-top: 20px;
+            overflow: hidden;
+            display: none;
+            border: 1px solid #ccc;
+        }
+
+        #preview {
+            width: 100%;
+            height: auto;
         }
     </style>
 </body>
