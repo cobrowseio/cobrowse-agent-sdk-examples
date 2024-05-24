@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/css/main.733f0cd2.css",
-    "main.js": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/main.08b2ba8c.js",
+    "main.js": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/main.a67c5ed3.js",
     "index.html": "/cobrowse-agent-sdk-examples/custom-agent-demo/index.html",
     "main.733f0cd2.css.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/css/main.733f0cd2.css.map",
-    "main.08b2ba8c.js.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/main.08b2ba8c.js.map"
+    "main.a67c5ed3.js.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/main.a67c5ed3.js.map"
   },
   "entrypoints": [
     "static/css/main.733f0cd2.css",
-    "static/js/main.08b2ba8c.js"
+    "static/js/main.a67c5ed3.js"
   ]
 }
