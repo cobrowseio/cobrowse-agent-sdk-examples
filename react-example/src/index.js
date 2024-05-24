@@ -20,7 +20,7 @@ async function fetchToken (demoid) {
   // https://docs.cobrowse.io/agent-side-integrations/custom-iframe-integrations/json-web-tokens-jwts
   if (!demoid) return
   window.localStorage.cobrowse_demo_id = demoid
-  const res = await fetch(`${cobrowse.api}/api/1/demo/token?cobrowseio_demo_id=${demoid}`)
+  const res = await fetch(`${cobrowse.api}/api/1/demo/token?demo_id=${demoid}`)
   const { token } = await res.json()
   cobrowse.token = token
   await refresh()

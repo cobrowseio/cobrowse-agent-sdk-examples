@@ -8,7 +8,7 @@ async function fetchToken () {
   // You should fetch a token in an authenticated way from your own server for
   // the user. See our documentation on generating a JWT for cobrowse:
   // https://docs.cobrowse.io/agent-side-integrations/custom-iframe-integrations/json-web-tokens-jwts
-  const res = await fetch('https://cobrowse.io/api/1/demo/token?cobrowseio_demo_id=agent-sdk-example');
+  const res = await fetch('https://cobrowse.io/api/1/demo/token?demo_id=agent-sdk-example');
   const { token } = await res.json()
   return token
 }

@@ -113,7 +113,7 @@ export default function CustomAgentUIExample(props) {
           className={'screen'}
           title='Agent Session'
           frameBorder={0}
-          src={`${props.api}/connect?filter_cobrowseio_demo_id=${props.demoId}&token=${props.token}&end_action=none&agent_tools=none&device_controls=none&session_details=none&popout=none&messages=none`}
+          src={`${props.api}/connect?filter_demo_id=${props.demoId}&token=${props.token}&end_action=none&agent_tools=none&device_controls=none&session_details=none&popout=none&messages=none`}
         />
         { renderControls() }
       </div>
