@@ -50,8 +50,9 @@ export default function CustomAgentUIExample(props) {
   }
 
   function renderError() {
-    console.log(error)
-    if (error) return <div className={'error'}><b>Your custom error screen</b><p>id = {error.id}</p></div>
+    if (error) {
+      return <div className={'error'}><b>Your custom error screen</b><p>id = {error.id}</p></div>
+    }
     return null
   }
 

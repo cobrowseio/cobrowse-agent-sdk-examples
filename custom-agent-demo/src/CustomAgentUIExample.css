@@ -50,10 +50,8 @@
 }
 
 .CustomAgentUIExample .screen {
-  width: 100%;
-  height: calc(100% - 80px);
-  border-radius: 30px;
-  overflow: hidden;
+  height: calc(100% - 140px);
+  margin: 30px;
 }
 
 .CustomAgentUIExample .agent-controls {
