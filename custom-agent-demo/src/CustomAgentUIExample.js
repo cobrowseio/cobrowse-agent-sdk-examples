@@ -5,8 +5,6 @@ import CobrowseAPI from 'cobrowse-agent-sdk'
 import Stopwatch from './components/Stopwatch'
 import './CustomAgentUIExample.css'
 
-const cobrowse = new CobrowseAPI()
-
 export default function CustomAgentUIExample(props) {
   const [ session, setSession ] = useState(null)
   const [ error, setError ] = useState(null)
@@ -23,6 +21,7 @@ export default function CustomAgentUIExample(props) {
 
   async function onIframeRef(iframe) {
     if ((!context) && iframe) {
+      const cobrowse = new CobrowseAPI(null, { api: props.api })
       const ctx = await cobrowse.attachContext(iframe)
       window.cobrowse_ctx = ctx
       ctx.on('session.updated', session => {
@@ -91,7 +90,7 @@ export default function CustomAgentUIExample(props) {
         <div onClick={() => pickTool('control')} title={'Remote Control'} className={`btn ${tool === 'control' ? 'btn-selected' : ''}`}>
           <FontAwesomeIcon icon={faHandPointer} />
         </div>
-        <div onClick={() => context.setFullDevice(!session.full_device)} title={'Full Device Mode'} className={`btn ${session.full_device ? 'full-device-on' : ''}`}>
+        <div onClick={() => context.setFullDevice(session.full_device === 'on' ? 'off' : 'requested')} title={'Full Device Mode'} className={`btn ${`full-device-${session.full_device}`}`}>
           <FontAwesomeIcon icon={faDesktop} />
         </div>
         <div onClick={() => context.endSession()} title={'End Screenshare'} className='btn btn-right-most btn-end'>

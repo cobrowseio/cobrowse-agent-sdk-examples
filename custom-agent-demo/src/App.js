@@ -15,6 +15,7 @@ function App(props) {
         <h2>Your Customer</h2>
         <FakeWindow>
           <iframe
+            allow='display-capture'
             className='device'
             title='Device'
             frameBorder={0}

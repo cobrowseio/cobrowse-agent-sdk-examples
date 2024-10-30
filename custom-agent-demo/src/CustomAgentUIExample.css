@@ -92,6 +92,11 @@
   background: rgb(196, 64, 77);
 }
 
+.CustomAgentUIExample .full-device-rejected {
+  background: rgb(196, 64, 77);
+}
+
+.CustomAgentUIExample .full-device-requested,
 .CustomAgentUIExample .full-device-on {
   background: rgb(45, 161, 37)
 }
