@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/css/main.c266c6a6.css",
-    "main.js": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/main.8f32219e.js",
+    "main.css": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/css/main.80d030a8.css",
+    "main.js": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/main.263d89e8.js",
     "index.html": "/cobrowse-agent-sdk-examples/custom-agent-demo/index.html",
-    "main.c266c6a6.css.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/css/main.c266c6a6.css.map",
-    "main.8f32219e.js.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/main.8f32219e.js.map"
+    "main.80d030a8.css.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/css/main.80d030a8.css.map",
+    "main.263d89e8.js.map": "/cobrowse-agent-sdk-examples/custom-agent-demo/static/js/main.263d89e8.js.map"
   },
   "entrypoints": [
-    "static/css/main.c266c6a6.css",
-    "static/js/main.8f32219e.js"
+    "static/css/main.80d030a8.css",
+    "static/js/main.263d89e8.js"
   ]
 }
