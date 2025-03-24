@@ -20,6 +20,9 @@ Our [React example](https://cobrowseio.github.io/cobrowse-agent-sdk-examples/rea
 
 Our [custom agent demo](https://cobrowseio.github.io/cobrowse-agent-sdk-examples/custom-agent-demo/) allows you to view and interact with a completely replaced agent user interface. [Read more](./custom-agent-demo) about how to run this example.
 
+## Custom CRM (TypeScript)
+A custom CRM showcasing how Cobrowse can easily be added into your own CRM or single pane of glass.
+
 ## Agent Present
 
 Our [Agent Present demo](https://cobrowseio.github.io/cobrowse-agent-sdk-examples/agent-present/) demonstrates how to provide your own UI for the agent present mode.
