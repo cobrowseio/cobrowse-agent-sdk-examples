@@ -5,3 +5,6 @@ private.pem
 build
 # We don't need this for running top-level commands.
 package-lock.json
+
+# Ignore ASDF files that track node versions
+.tool-versions
