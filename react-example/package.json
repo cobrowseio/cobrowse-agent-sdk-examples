@@ -4,15 +4,17 @@
   "private": true,
   "homepage": "https://cobrowseio.github.io/cobrowse-agent-sdk-examples/react-example",
   "dependencies": {
+    "@vitejs/plugin-react": "^4.6.0",
+    "browserslist-to-esbuild": "^2.1.1",
     "cobrowse-agent-sdk": "0.0.22",
     "cobrowse-agent-ui": "github:cobrowseio/cobrowse-agent-ui",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "^5.0.1"
+    "vite": "^7.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build"
+    "start": "vite",
+    "build": "vite build"
   },
   "eslintConfig": {
     "extends": [
