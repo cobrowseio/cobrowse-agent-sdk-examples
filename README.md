@@ -48,5 +48,17 @@ With those changes made you can now launch the agent present demo.
 
 In [recordings](recordings/) you can find useful scripts to programatically download or delete session recordings from your account.
 
+## Add custom data to session
+
+The example seen in [custom-data/index.html](custom-data/index.html) requires an Agent JWT Token to be passed as the `token` query parameter. Once set the dashboard should load and allow custom data to be added or deleted to an active session.
+
+### To add custom data
+
+Start a Cobrowse session and use the key and value input fields and click **Apply**.
+
+### To remove custom data
+
+Hover over the key you wish to delete and click the delete button.
+
 ## Questions?
 Any questions at all? Please email us directly at [hello@cobrowse.io](mailto:hello@cobrowse.io).
