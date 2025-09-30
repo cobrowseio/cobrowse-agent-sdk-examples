@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Data</title>
+    <script src="https://unpkg.com/cobrowse-agent-sdk@2.11.0/dist/umd-browser/cobrowse-agent-sdk.js"></script>
+</head>
+
+<body>
+    <div class="layout">
+        <iframe id="agent-iframe"></iframe>
+
+        <aside>
+            <header>
+                <h4>Custom Data</h4>
+            </header>
+
+            <div class="contents">
+                <table>
+                    <tbody id="custom-data-table">
+                    </tbody>
+                </table>
+            </div>
+
+            <footer>
+                <div class="inputs">
+                    <input type="text" id="key" placeholder="Key">
+                    <input type="text" id="value" placeholder="Value">
+                </div>
+
+                <button id="apply-custom-data" disabled>
+                    <span class="spinner" aria-hidden="true"></span>
+                    <span class="button-text">Apply</span>
+                </button>
+            </footer>
+        </aside>
+    </div>
+
+    <script>
+        let currentSession = null;
+
+        const params = new URLSearchParams(window.location.search);
+        const agentToken = params.get('token') || '<AGENT_JWT>'; // Pass via ?token= or set your agent JWT here
+        const cobrowse = new CobrowseAPI(agentToken, { api: 'https://cobrowse.io' });
+
+        const iframe = document.getElementById('agent-iframe');
+        iframe.src = `${cobrowse.api}/dashboard?token=${agentToken}`;
+
+        iframe.addEventListener('load', async () => {
+            updateUI();
+
+            // Get the cobrowse context for the agent iframe
+            const context = await cobrowse.attachContext(iframe);
+            if (!context) return;
+
+            // Keep track of current session to add custom data to it later
+            context.on('session.updated', (s) => {
+                currentSession = (s.isEnded() ? null : s);
+                updateUI();
+            });
+        });
+
+        const applyCustomData = async () => {
+            if (!currentSession) return;
+
+            const { keyInput, valueInput } = getElements();
+            if (!keyInput || !valueInput) return;
+
+            const key = keyInput.value.trim();
+            const value = valueInput.value.trim();
+            if (!key || !value) return;
+
+            setApplying(true);
+
+            try {
+                // Call update on the current session to add custom data
+                await currentSession.update({ custom_data: { [key]: value } });
+                keyInput.value = '';
+                valueInput.value = '';
+            } catch (err) {
+                console.error('Failed to update session custom data', err);
+            } finally {
+                setApplying(false);
+                updateUI();
+            }
+        };
+    </script>
+
+    <script>
+        const getElements = () => ({
+            applyButton: document.getElementById('apply-custom-data'),
+            keyInput: document.getElementById('key'),
+            valueInput: document.getElementById('value'),
+            table: document.getElementById('custom-data-table')
+        });
+
+        const updateUI = () => {
+            updateButtonState();
+            updateTableState();
+        };
+
+        const updateButtonState = () => {
+            const { applyButton, keyInput, valueInput } = getElements();
+            if (!applyButton || !keyInput || !valueInput) return;
+
+            applyButton.disabled = !currentSession
+                || keyInput.value.trim() == ''
+                || valueInput.value.trim() == '';
+        };
+
+        const updateTableState = () => {
+            const { table } = getElements();
+            if (!table) return;
+
+            table.replaceChildren();
+
+            if (!currentSession) {
+                setTableHint('No active session');
+                return;
+            }
+
+            if (!currentSession.custom_data || Object.keys(currentSession.custom_data).length === 0) {
+                setTableHint('No custom data');
+                return;
+            }
+
+            // Build rows in a fragment to minimize reflows
+            const frag = document.createDocumentFragment();
+            Object.entries(currentSession.custom_data)
+                .sort(([a], [b]) => a.localeCompare(b))
+                .forEach(([key, value]) => {
+                    const row = createRow(key, value);
+                    frag.appendChild(row);
+                });
+
+            table.appendChild(frag);
+        };
+
+        const createRow = (key, value) => {
+            const row = document.createElement('tr');
+
+            const keyCell = document.createElement('td');
+            keyCell.textContent = key;
+
+            const valueCell = document.createElement('td');
+            valueCell.textContent = value;
+
+            row.appendChild(keyCell);
+            row.appendChild(valueCell);
+
+            const overlay = document.createElement('div');
+            overlay.className = 'row-overlay';
+
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'row-delete-overlay-btn';
+            button.textContent = 'Delete';
+            button.setAttribute('aria-label', `Delete ${key}`);
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteKey(key);
+            });
+
+            overlay.appendChild(button);
+            row.appendChild(overlay);
+
+            return row;
+        };
+
+        const setTableHint = (message) => {
+            const { table } = getElements();
+            if (!table) return;
+
+            const row = document.createElement('tr');
+            row.className = 'no-data';
+
+            const td = document.createElement('td');
+            td.colSpan = 2;
+            td.textContent = message;
+
+            row.appendChild(td);
+            table.appendChild(row);
+        };
+
+        const setApplying = (isApplying) => {
+            const { applyButton, keyInput, valueInput } = getElements();
+            if (!applyButton || !keyInput || !valueInput) return;
+
+            keyInput.disabled = isApplying;
+            valueInput.disabled = isApplying;
+
+            applyButton.disabled = isApplying;
+            applyButton.classList.toggle('applying', isApplying);
+        };
+
+        const deleteKey = async (key) => {
+            if (!currentSession) return;
+
+            setApplying(true);
+
+            try {
+                await currentSession.update({ custom_data: { [key]: null } });
+            } catch (err) {
+                console.error('Failed to delete custom data key', err);
+            } finally {
+                setApplying(false);
+                updateUI();
+            }
+        };
+
+        (() => {
+            const { applyButton, keyInput, valueInput } = getElements();
+            if (!applyButton || !keyInput || !valueInput) return;
+
+            keyInput.addEventListener('input', updateButtonState);
+            valueInput.addEventListener('input', updateButtonState);
+            applyButton.addEventListener('click', applyCustomData);
+        })();
+    </script>
+
+    <style>
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .contents {
+            flex: 1 1 auto;
+            margin-top: 8px;
+            overflow: auto;
+        }
+
+        .layout {
+            display: flex;
+            height: 100vh;
+            min-height: 600px;
+        }
+
+        .row-delete-overlay-btn {
+            align-items: center;
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+            color: #fff;
+            display: inline-flex;
+            font-size: 18px;
+            font-weight: 800;
+            height: 100%;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .row-delete-overlay-btn:focus {
+            outline: 3px solid rgba(255, 255, 255, 0.18);
+            outline-offset: -3px;
+        }
+
+        .row-overlay {
+            align-items: center;
+            background: linear-gradient(rgba(220, 38, 38, 0.88), rgba(220, 38, 38, 0.88));
+            display: flex;
+            inset: 0;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            transition: opacity 150ms ease-in-out;
+        }
+
+        aside tbody tr:hover .row-overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        aside {
+            box-sizing: border-box;
+            display: flex;
+            flex: 1 1 0;
+            flex-direction: column;
+            min-width: 300px;
+            padding: 16px;
+            background: #f7f7f7;
+            border-left: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        aside footer {
+            border-top: 1px solid rgba(15, 23, 42, 0.06);
+            margin-top: 16px;
+            padding-top: 12px;
+        }
+
+        aside footer .inputs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        aside footer .inputs input[type="text"] {
+            background: #fff;
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            border-radius: 6px;
+            box-sizing: border-box;
+            flex: 1 1 0;
+            font-size: 14px;
+            min-width: 0;
+            padding: 8px 10px;
+        }
+
+        aside header h4 {
+            color: #111827;
+            font-size: 22px;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+        }
+
+        aside table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        aside td {
+            padding: 14px 8px;
+            vertical-align: middle;
+        }
+
+        aside td:first-child {
+            color: #8b8b97;
+            font-size: 14px;
+            width: 55%;
+        }
+
+        aside td:last-child {
+            color: #0f172a;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        aside tr+tr td {
+            border-top: 1px solid rgba(15, 23, 42, 0.06);
+        }
+
+        aside tbody tr {
+            position: relative;
+        }
+
+        aside tr.no-data td {
+            color: #6b7280;
+            font-size: 14px;
+            padding: 20px 8px;
+            text-align: center;
+        }
+
+        iframe {
+            border: 0;
+            flex: 4 1 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #apply-custom-data {
+            align-items: center;
+            background: #0f172a;
+            border: 0;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            display: inline-flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 10px;
+            overflow: hidden;
+            padding: 10px 12px;
+            position: relative;
+            transition: background 0.2s;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        #apply-custom-data:hover:not(:disabled) {
+            background: #4b4e55;
+        }
+
+        #apply-custom-data:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        #apply-custom-data .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            border-top-color: white;
+            box-sizing: border-box;
+            display: none;
+            height: 16px;
+            width: 16px;
+        }
+
+        #apply-custom-data.applying .spinner {
+            animation: spin 0.9s linear infinite;
+            display: inline-block;
+        }
+
+        #apply-custom-data.applying .button-text {
+            opacity: 0.9;
+        }
+
+        html,
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</body>
+
+</html>
