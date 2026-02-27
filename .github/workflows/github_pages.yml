@@ -26,14 +26,11 @@ jobs:
           source: ./
           destination: ./_site
 
-      - name: Build web demo
+      - name: Build
         run: |
-          cd web-example
-          npm install
+          npm --no-color install
           npm run build
-          sudo mkdir -p ../_site/web-example/demo
-          sudo mv build/* ../_site/web-example/demo
-          
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
