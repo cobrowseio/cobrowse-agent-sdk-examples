@@ -35,6 +35,10 @@ export default function CustomAgentUIExample(props) {
     context.setColor(initialColor)
   }, [context, colors, color])
 
+  useEffect(() => {
+    if (session?.state === 'active') context?.setTool(tool)
+  }, [context, session?.state, tool])
+
   async function onIframeRef(iframe) {
     if ((!context) && iframe) {
       const cobrowse = new CobrowseAPI(null, { api: props.api })
@@ -58,11 +62,6 @@ export default function CustomAgentUIExample(props) {
       })
       setContext(ctx)
     }
-  }
-
-  function pickTool(tool) {
-    setTool(tool)
-    context?.setTool(tool)
   }
 
   function pickColor(color) {
@@ -100,17 +99,17 @@ export default function CustomAgentUIExample(props) {
         <div className='timer'>
           <Stopwatch start={session.activated} />
         </div>
-        <div onClick={() => pickTool('laser')} title={'Laser Pointer'} className={`btn btn-left-most ${tool === 'laser' ? 'btn-selected' : ''}`}>
+        <div onClick={() => setTool('laser')} title={'Laser Pointer'} className={`btn btn-left-most ${tool === 'laser' ? 'btn-selected' : ''}`}>
           <FontAwesomeIcon icon={faPen} />
         </div>
-        <div onClick={() => pickTool('drawing')} title={'Draw'} className={`btn ${tool === 'drawing' ? 'btn-selected' : ''}`}>
+        <div onClick={() => setTool('drawing')} title={'Draw'} className={`btn ${tool === 'drawing' ? 'btn-selected' : ''}`}>
           <FontAwesomeIcon icon={faMarker} />
         </div>
         { colors.length > 1 && <ColorPicker className='btn' colors={colors} selectedColor={color} onColorPicked={pickColor} /> }
         <div onClick={() => context.clearAnnotations()} title={'Clear Drawing'} className='btn'>
           <FontAwesomeIcon icon={faTrash} />
         </div>
-        <div onClick={() => pickTool('control')} title={'Remote Control'} className={`btn ${tool === 'control' ? 'btn-selected' : ''}`}>
+        <div onClick={() => setTool('control')} title={'Remote Control'} className={`btn ${tool === 'control' ? 'btn-selected' : ''}`}>
           <FontAwesomeIcon icon={faHandPointer} />
         </div>
         <div onClick={() => context.setFullDevice(session.full_device === 'on' ? 'off' : 'requested')} title={'Full Device Mode'} className={`btn ${`full-device-${session.full_device}`}`}>
