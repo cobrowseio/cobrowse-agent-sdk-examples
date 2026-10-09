@@ -1,0 +1,40 @@
+.ColorPicker {
+  position: relative;
+}
+
+.ColorPicker .swatch {
+  border-radius: 50%;
+}
+
+.ColorPicker .current {
+  display: inline-block;
+  vertical-align: middle;
+  width: 14px;
+  height: 14px;
+  box-shadow: 0 0 0 2px #333336, 0 0 0 3px #c8c8cb;
+}
+
+.ColorPicker .menu {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 20px;
+  background: #333336;
+  z-index: 10;
+}
+
+.ColorPicker .menu .swatch {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.ColorPicker .menu .swatch:hover,
+.ColorPicker .menu .swatch-selected {
+  box-shadow: 0 0 0 2px #333336, 0 0 0 3px #ffffff;
+}
