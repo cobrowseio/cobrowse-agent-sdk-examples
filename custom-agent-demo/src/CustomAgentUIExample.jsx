@@ -3,12 +3,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPhone, faPen, faMarker, faDesktop, faHandPointer } from '@fortawesome/free-solid-svg-icons'
 import CobrowseAPI from 'cobrowse-agent-sdk'
 import Stopwatch from './components/Stopwatch'
+import ColorPicker from './components/ColorPicker'
 import './CustomAgentUIExample.css'
+
+const defaultColor = '#e94435'
 
 export default function CustomAgentUIExample(props) {
   const [ session, setSession ] = useState(null)
   const [ error, setError ] = useState(null)
   const [ tool, setTool ] = useState('laser')
+  const [ colors, setColors ] = useState([])
+  const [ color, setColor ] = useState()
   const [ context, setContext ] = useState()
   const [ screenInfo, setScreenInfo ] = useState()
 
@@ -19,6 +24,21 @@ export default function CustomAgentUIExample(props) {
     return () => clearInterval(intervalId)
   }, [screenInfo])
 
+  // the iframe may remember a color from a previous session, so pick one
+  // of the session's allowed colors and push it to keep both UIs in sync
+  useEffect(() => {
+    if (!context || colors.length === 0 || colors.includes(color)) return
+
+    const initialColor = colors.find((color) => color.toLowerCase() === defaultColor) ?? colors[0]
+
+    setColor(initialColor)
+    context.setColor(initialColor)
+  }, [context, colors, color])
+
+  useEffect(() => {
+    if (session?.state === 'active') context?.setTool(tool)
+  }, [context, session?.state, tool])
+
   async function onIframeRef(iframe) {
     if ((!context) && iframe) {
       const cobrowse = new CobrowseAPI(null, { api: props.api })
@@ -27,6 +47,7 @@ export default function CustomAgentUIExample(props) {
       ctx.on('session.updated', session => {
         // update the component session state
         setSession(session.toJSON())
+        setColors(session.colors ?? [])
         // when the session ends, trigger some cleanup of the context
         if (session.isEnded()) {
           ctx.destroy()
@@ -43,9 +64,9 @@ export default function CustomAgentUIExample(props) {
     }
   }
 
-  function pickTool(tool) {
-    setTool(tool)
-    context?.setTool(tool)
+  function pickColor(color) {
+    setColor(color)
+    context?.setColor(color)
   }
 
   function renderError() {
@@ -78,16 +99,17 @@ export default function CustomAgentUIExample(props) {
         <div className='timer'>
           <Stopwatch start={session.activated} />
         </div>
-        <div onClick={() => pickTool('laser')} title={'Laser Pointer'} className={`btn btn-left-most ${tool === 'laser' ? 'btn-selected' : ''}`}>
+        <div onClick={() => setTool('laser')} title={'Laser Pointer'} className={`btn btn-left-most ${tool === 'laser' ? 'btn-selected' : ''}`}>
           <FontAwesomeIcon icon={faPen} />
         </div>
-        <div onClick={() => pickTool('drawing')} title={'Draw'} className={`btn ${tool === 'drawing' ? 'btn-selected' : ''}`}>
+        <div onClick={() => setTool('drawing')} title={'Draw'} className={`btn ${tool === 'drawing' ? 'btn-selected' : ''}`}>
           <FontAwesomeIcon icon={faMarker} />
         </div>
+        { colors.length > 1 && <ColorPicker className='btn' colors={colors} selectedColor={color} onColorPicked={pickColor} /> }
         <div onClick={() => context.clearAnnotations()} title={'Clear Drawing'} className='btn'>
           <FontAwesomeIcon icon={faTrash} />
         </div>
-        <div onClick={() => pickTool('control')} title={'Remote Control'} className={`btn ${tool === 'control' ? 'btn-selected' : ''}`}>
+        <div onClick={() => setTool('control')} title={'Remote Control'} className={`btn ${tool === 'control' ? 'btn-selected' : ''}`}>
           <FontAwesomeIcon icon={faHandPointer} />
         </div>
         <div onClick={() => context.setFullDevice(session.full_device === 'on' ? 'off' : 'requested')} title={'Full Device Mode'} className={`btn ${`full-device-${session.full_device}`}`}>
