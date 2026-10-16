@@ -4,6 +4,7 @@
 
 .ColorPicker .swatch {
   border-radius: 50%;
+  forced-color-adjust: none;
 }
 
 .ColorPicker .current {
@@ -37,4 +38,10 @@
 .ColorPicker .menu .swatch:hover,
 .ColorPicker .menu .swatch-selected {
   box-shadow: 0 0 0 2px #333336, 0 0 0 3px #ffffff;
+}
+
+@media (forced-colors: active) {
+  .ColorPicker .menu {
+    border: 1px solid;
+  }
 }
