@@ -46,7 +46,7 @@ With those changes made you can now launch the agent present demo.
 
 ## Recording Samples
 
-In [recordings](recordings/) you can find useful scripts to programatically download or delete session recordings from your account.
+In [recordings](https://github.com/cobrowseio/cobrowse-agent-sdk-examples/tree/master/recordings) you can find useful scripts to programatically download or delete session recordings from your account.
 
 ## Add custom data to session
 
